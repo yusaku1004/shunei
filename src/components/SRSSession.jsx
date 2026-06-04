@@ -16,6 +16,7 @@ export default function SRSSession({ onHome }) {
   const [correct, setCorrect] = useState(0)
   const [scored, setScored] = useState(0)
   const [boxUp, setBoxUp] = useState(null)
+  const [history, setHistory] = useState([])
   const sessionStart = useRef(Date.now())
   const { recordStudy } = useStreak()
 
@@ -35,6 +36,7 @@ export default function SRSSession({ onHome }) {
     setMaxCombo(0)
     setCorrect(0)
     setScored(0)
+    setHistory([])
     sessionStart.current = Date.now()
     setComplete(shuffled.length === 0)
     setLoading(false)
@@ -43,6 +45,8 @@ export default function SRSSession({ onHome }) {
   async function handleScore(score) {
     const card = queue[currentIdx]
     if (!card) return
+
+    setHistory((h) => [...h, { card, currentIdx, combo, maxCombo, correct, scored }])
 
     const update = gradeCard(card, score)
     await db.sentences.update(card.id, update)
@@ -69,6 +73,27 @@ export default function SRSSession({ onHome }) {
     }
   }
 
+  async function undo() {
+    const snap = history[history.length - 1]
+    if (!snap) return
+    const { card } = snap
+    await db.sentences.update(card.id, {
+      box: card.box,
+      next_due: card.next_due,
+      reps: card.reps,
+      ease: card.ease,
+      interval: card.interval,
+    })
+    setCurrentIdx(snap.currentIdx)
+    setCombo(snap.combo)
+    setMaxCombo(snap.maxCombo)
+    setCorrect(snap.correct)
+    setScored(snap.scored)
+    setComplete(false)
+    setBoxUp(null)
+    setHistory((h) => h.slice(0, -1))
+  }
+
   if (loading) return <div className="loading">読み込み中...</div>
 
   if (complete) {
@@ -88,6 +113,13 @@ export default function SRSSession({ onHome }) {
       <div className="session-header">
         <button className="btn-back" onClick={onHome}>← ホーム</button>
         <span className="session-mode-label">SRS復習</span>
+        <button
+          className="btn-undo"
+          onClick={undo}
+          disabled={history.length === 0}
+        >
+          ↩ 戻す
+        </button>
         <span className="remaining-badge">残り {remaining}</span>
       </div>
       {boxUp && (

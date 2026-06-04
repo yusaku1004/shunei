@@ -19,6 +19,7 @@ export default function DeckSession({ onHome }) {
   const [correct, setCorrect] = useState(0)
   const [scored, setScored] = useState(0)
   const [boxUp, setBoxUp] = useState(null) // { from, to }
+  const [history, setHistory] = useState([])
   const sessionStart = useRef(Date.now())
   const { recordStudy } = useStreak()
 
@@ -39,6 +40,7 @@ export default function DeckSession({ onHome }) {
     setMaxCombo(0)
     setCorrect(0)
     setScored(0)
+    setHistory([])
     sessionStart.current = Date.now()
     setLoading(false)
   }
@@ -46,6 +48,9 @@ export default function DeckSession({ onHome }) {
   async function handleScore(score) {
     const card = deck[currentIdx]
     if (!card) return
+
+    // Undo 用に直前の状態をスナップショット
+    setHistory((h) => [...h, { card, currentIdx, results, combo, maxCombo, correct, scored }])
 
     const update = gradeCard(card, score)
     await db.sentences.update(card.id, update)
@@ -82,6 +87,29 @@ export default function DeckSession({ onHome }) {
     setCurrentIdx(deck.findIndex((s) => s.id === next.id))
   }
 
+  async function undo() {
+    const snap = history[history.length - 1]
+    if (!snap) return
+    const { card } = snap
+    // DB の採点結果を元に戻す
+    await db.sentences.update(card.id, {
+      box: card.box,
+      next_due: card.next_due,
+      reps: card.reps,
+      ease: card.ease,
+      interval: card.interval,
+    })
+    setResults(snap.results)
+    setCurrentIdx(snap.currentIdx)
+    setCombo(snap.combo)
+    setMaxCombo(snap.maxCombo)
+    setCorrect(snap.correct)
+    setScored(snap.scored)
+    setComplete(false)
+    setBoxUp(null)
+    setHistory((h) => h.slice(0, -1))
+  }
+
   if (loading) return <div className="loading">読み込み中...</div>
 
   if (!loading && deck.length === 0) {
@@ -114,6 +142,13 @@ export default function DeckSession({ onHome }) {
       <div className="session-header">
         <button className="btn-back" onClick={onHome}>← ホーム</button>
         <span className="session-mode-label">デッキ周回</span>
+        <button
+          className="btn-undo"
+          onClick={undo}
+          disabled={history.length === 0}
+        >
+          ↩ 戻す
+        </button>
       </div>
       {boxUp && (
         <div className={`boxup-toast ${boxUp.to === 5 ? 'boxup-master' : ''}`}>

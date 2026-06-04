@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/index'
 import { SAMPLE_SENTENCES } from '../data/sampleSentences'
+import { useTTS } from '../hooks/useTTS'
 
 const TAGS = [...new Set(SAMPLE_SENTENCES.map((s) => s.tag))]
 const LEVELS = [1, 2, 3, 4]
@@ -14,8 +15,27 @@ export default function SettingsScreen({ onBack }) {
   const [selectedLevel, setSelectedLevel] = useState(2)
   const [genCount, setGenCount] = useState(10)
   const [resetConfirm, setResetConfirm] = useState(false)
+  const [autoSpeak, setAutoSpeak] = useState(
+    () => localStorage.getItem('shunei_autospeak') !== 'off'
+  )
+  const [ttsRate, setTtsRate] = useState(
+    () => Number(localStorage.getItem('shunei_ttsrate')) || 0.9
+  )
+  const { speak } = useTTS()
 
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
+
+  function toggleAutoSpeak() {
+    const next = !autoSpeak
+    setAutoSpeak(next)
+    localStorage.setItem('shunei_autospeak', next ? 'on' : 'off')
+  }
+
+  function changeRate(rate) {
+    setTtsRate(rate)
+    localStorage.setItem('shunei_ttsrate', String(rate))
+    speak('This is a sample sentence.', 'en-US', rate)
+  }
 
   function saveApiKey() {
     localStorage.setItem('anthropic_key', apiKey)
@@ -128,6 +148,48 @@ export default function SettingsScreen({ onBack }) {
               <span className="tag-count">{count}文</span>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Study settings */}
+      <section className="settings-section">
+        <h3>学習設定</h3>
+        <div className="setting-row">
+          <div className="setting-label">
+            <span className="setting-title">答えの音声を自動再生</span>
+            <span className="setting-desc">答えを表示したとき英語を読み上げます</span>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={autoSpeak}
+            className={`toggle ${autoSpeak ? 'on' : ''}`}
+            onClick={toggleAutoSpeak}
+          >
+            <span className="toggle-knob" />
+          </button>
+        </div>
+
+        <div className="setting-row">
+          <div className="setting-label">
+            <span className="setting-title">読み上げ速度</span>
+            <span className="setting-desc">タップで試聴できます</span>
+          </div>
+          <div className="speed-chips">
+            {[
+              { v: 0.7, label: 'ゆっくり' },
+              { v: 0.9, label: '標準' },
+              { v: 1.1, label: '速い' },
+            ].map(({ v, label }) => (
+              <button
+                key={v}
+                className={`speed-chip ${Math.abs(ttsRate - v) < 0.01 ? 'active' : ''}`}
+                onClick={() => changeRate(v)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 

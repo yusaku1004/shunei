@@ -6,11 +6,28 @@ import { STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
 const SPEED_THRESHOLD = 5
 const SWIPE_THRESHOLD = 72
 
+// デスクトップ（マウス/キーボード操作）かどうかを一度だけ判定
+const IS_DESKTOP =
+  typeof window !== 'undefined' &&
+  window.matchMedia?.('(hover: hover) and (pointer: fine)').matches
+
+function getAutoSpeak() {
+  return localStorage.getItem('shunei_autospeak') !== 'off'
+}
+function getTTSRate() {
+  return Number(localStorage.getItem('shunei_ttsrate')) || 0.9
+}
+
+function vibrate(ms) {
+  try { navigator.vibrate?.(ms) } catch { /* noop */ }
+}
+
 export default function FlashCard({ sentence, onScore, combo = 0 }) {
   const [revealed, setRevealed] = useState(false)
   const [dragX, setDragX] = useState(0)
   const [exiting, setExiting] = useState(null)
   const startXRef = useRef(null)
+  const firedRef = useRef(false)
   const { speak } = useTTS()
   const { elapsed, reset } = useTimer(!revealed)
 
@@ -18,20 +35,56 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
     setRevealed(false)
     setDragX(0)
     setExiting(null)
+    firedRef.current = false
     reset()
   }, [sentence?.id])
 
-  if (!sentence) return null
-
-  function handleReveal() {
-    if (!revealed) setRevealed(true)
+  function reveal() {
+    if (revealed || exiting) return
+    setRevealed(true)
+    if (getAutoSpeak() && sentence) speak(sentence.en, 'en-US', getTTSRate())
   }
 
   function fireScore(score) {
+    if (firedRef.current) return
+    firedRef.current = true
+    vibrate(score === 'good' ? 18 : 30)
     setExiting(score)
     setDragX(0)
     setTimeout(() => onScore(score), 320)
   }
+
+  function replay() {
+    if (sentence) speak(sentence.en, 'en-US', getTTSRate())
+  }
+
+  // Keyboard shortcuts (desktop)
+  useEffect(() => {
+    function onKey(e) {
+      if (exiting || e.metaKey || e.ctrlKey || e.altKey) return
+      const tag = e.target.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
+
+      if (!revealed) {
+        if (e.code === 'Space' || e.code === 'Enter') {
+          e.preventDefault()
+          reveal()
+        }
+        return
+      }
+      switch (e.key) {
+        case '1': case 'ArrowLeft':  e.preventDefault(); fireScore('again'); break
+        case '2': case 'ArrowUp':    e.preventDefault(); fireScore('hard');  break
+        case '3': case 'ArrowRight': e.preventDefault(); fireScore('good');  break
+        case 'r': case 'R':          e.preventDefault(); replay();           break
+        default: break
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [revealed, exiting, sentence?.id])
+
+  if (!sentence) return null
 
   // Touch swipe handlers
   function onTouchStart(e) {
@@ -115,7 +168,7 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseUp}
-        onClick={!revealed ? handleReveal : undefined}
+        onClick={!revealed ? reveal : undefined}
       >
         {/* Swipe direction overlays */}
         {showGoodHint && (
@@ -132,7 +185,11 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
         {/* Japanese */}
         <div className="card-jp-section">
           <p className="jp-text">{sentence.jp}</p>
-          {!revealed && <p className="think-hint">タップして答えを見る</p>}
+          {!revealed && (
+            <p className="think-hint">
+              {IS_DESKTOP ? 'クリック / スペースで答えを見る' : 'タップして答えを見る'}
+            </p>
+          )}
         </div>
 
         {/* Timer bar */}
@@ -150,8 +207,9 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
             <p className="en-text">{sentence.en}</p>
             <button
               className="btn-speak"
-              onClick={(e) => { e.stopPropagation(); speak(sentence.en) }}
-              aria-label="音声再生"
+              onClick={(e) => { e.stopPropagation(); replay() }}
+              aria-label="音声をもう一度再生"
+              title={IS_DESKTOP ? 'もう一度再生 (R)' : 'もう一度再生'}
             >
               🔊
             </button>
@@ -162,7 +220,9 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
       {/* Score buttons */}
       {revealed && (
         <>
-          <p className="swipe-tip">← スワイプで NG / OK →</p>
+          <p className="swipe-tip">
+            {IS_DESKTOP ? '← NG / OK → ・ 1 2 3 キーでも採点' : '← スワイプで NG / OK →'}
+          </p>
           <div className="score-buttons">
             <button className="score-btn again" onClick={() => fireScore('again')}>
               <span className="score-icon">×</span>

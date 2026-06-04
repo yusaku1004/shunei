@@ -343,7 +343,6 @@ input, select { font: inherit; color: inherit; }
   font-weight: 600;
 }
 .remaining-badge {
-  margin-left: auto;
   background: var(--accent-pale);
   color: var(--accent-dark);
   border-radius: 999px;
@@ -351,6 +350,22 @@ input, select { font: inherit; color: inherit; }
   font-size: 0.78rem;
   font-weight: 700;
 }
+
+.btn-undo {
+  margin-left: auto;
+  color: var(--text-muted);
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  min-height: 36px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition: opacity 0.12s, transform 0.1s;
+}
+.btn-undo:active { transform: scale(0.94); }
+.btn-undo:disabled { opacity: 0.35; cursor: default; }
+.session-header .remaining-badge { margin-left: 8px; }
 
 /* ============================
    Deck Progress
@@ -717,6 +732,60 @@ input, select { font: inherit; color: inherit; }
   -webkit-appearance: none;
 }
 .gen-status { margin-top: 10px; font-size: 0.82rem; color: var(--good); font-weight: 700; }
+
+/* Study setting rows */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 0;
+}
+.setting-row + .setting-row { border-top: 1.5px solid var(--border); }
+.setting-label { display: flex; flex-direction: column; gap: 3px; }
+.setting-title { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+.setting-desc { font-size: 0.74rem; color: var(--text-muted); font-weight: 600; }
+
+.toggle {
+  flex-shrink: 0;
+  width: 52px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--border);
+  position: relative;
+  transition: background 0.18s;
+}
+.toggle.on { background: var(--accent); }
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.2);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toggle.on .toggle-knob { transform: translateX(22px); }
+
+.speed-chips { display: flex; gap: 6px; flex-shrink: 0; }
+.speed-chip {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all 0.12s;
+}
+.speed-chip.active {
+  background: var(--accent-pale);
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+.speed-chip:active { transform: scale(0.94); }
 .danger-zone h3 { color: var(--again) !important; }
 .danger-buttons { display: flex; gap: 10px; }
 .confirm-box {
