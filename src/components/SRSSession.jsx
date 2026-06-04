@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import { db } from '../db/index'
 import { gradeCard, getSRSDue } from '../engines/leitner'
 import { useStreak } from '../hooks/useStreak'
-import { STAGE_NAMES } from '../engines/leitner'
 import FlashCard from './FlashCard'
 import SRSComplete from './SRSComplete'
 
@@ -15,7 +14,6 @@ export default function SRSSession({ onHome }) {
   const [maxCombo, setMaxCombo] = useState(0)
   const [correct, setCorrect] = useState(0)
   const [scored, setScored] = useState(0)
-  const [boxUp, setBoxUp] = useState(null)
   const [history, setHistory] = useState([])
   const sessionStart = useRef(Date.now())
   const { recordStudy } = useStreak()
@@ -50,10 +48,6 @@ export default function SRSSession({ onHome }) {
 
     const update = gradeCard(card, score)
     await db.sentences.update(card.id, update)
-    if (update.box > card.box) {
-      setBoxUp({ from: card.box, to: update.box })
-      setTimeout(() => setBoxUp(null), 1800)
-    }
     setScored((n) => n + 1)
 
     if (score === 'good') {
@@ -90,7 +84,6 @@ export default function SRSSession({ onHome }) {
     setCorrect(snap.correct)
     setScored(snap.scored)
     setComplete(false)
-    setBoxUp(null)
     setHistory((h) => h.slice(0, -1))
   }
 
@@ -122,13 +115,6 @@ export default function SRSSession({ onHome }) {
         </button>
         <span className="remaining-badge">残り {remaining}</span>
       </div>
-      {boxUp && (
-        <div className={`boxup-toast ${boxUp.to === 5 ? 'boxup-master' : ''}`}>
-          {boxUp.to === 5
-            ? `🎉 習得済み！`
-            : `📈 ${STAGE_NAMES[boxUp.from]} → ${STAGE_NAMES[boxUp.to]}`}
-        </div>
-      )}
       <FlashCard sentence={queue[currentIdx] ?? null} onScore={handleScore} combo={combo} />
     </div>
   )

@@ -3,7 +3,6 @@ import { db } from '../db/index'
 import { gradeCard } from '../engines/leitner'
 import { buildDeck, isDeckComplete } from '../engines/deckCycle'
 import { useStreak } from '../hooks/useStreak'
-import { STAGE_NAMES } from '../engines/leitner'
 import FlashCard from './FlashCard'
 import DeckProgress from './DeckProgress'
 import DeckComplete from './DeckComplete'
@@ -18,7 +17,6 @@ export default function DeckSession({ onHome }) {
   const [maxCombo, setMaxCombo] = useState(0)
   const [correct, setCorrect] = useState(0)
   const [scored, setScored] = useState(0)
-  const [boxUp, setBoxUp] = useState(null) // { from, to }
   const [history, setHistory] = useState([])
   const sessionStart = useRef(Date.now())
   const { recordStudy } = useStreak()
@@ -54,10 +52,6 @@ export default function DeckSession({ onHome }) {
 
     const update = gradeCard(card, score)
     await db.sentences.update(card.id, update)
-    if (update.box > card.box) {
-      setBoxUp({ from: card.box, to: update.box })
-      setTimeout(() => setBoxUp(null), 1800)
-    }
 
     const newResults = { ...results, [card.id]: score }
     setResults(newResults)
@@ -106,7 +100,6 @@ export default function DeckSession({ onHome }) {
     setCorrect(snap.correct)
     setScored(snap.scored)
     setComplete(false)
-    setBoxUp(null)
     setHistory((h) => h.slice(0, -1))
   }
 
@@ -150,13 +143,6 @@ export default function DeckSession({ onHome }) {
           ↩ 戻す
         </button>
       </div>
-      {boxUp && (
-        <div className={`boxup-toast ${boxUp.to === 5 ? 'boxup-master' : ''}`}>
-          {boxUp.to === 5
-            ? `🎉 習得済み！`
-            : `📈 ${STAGE_NAMES[boxUp.from]} → ${STAGE_NAMES[boxUp.to]}`}
-        </div>
-      )}
       <DeckProgress deck={deck} results={results} />
       <FlashCard sentence={deck[currentIdx] ?? null} onScore={handleScore} combo={combo} />
     </div>
