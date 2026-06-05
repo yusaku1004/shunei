@@ -29,7 +29,8 @@ export default function DeckSession({ onHome }) {
   async function initDeck() {
     setLoading(true)
     const all = await db.sentences.toArray()
-    const d = buildDeck(all)
+    const size = Number(localStorage.getItem('shunei_decksize')) || 7
+    const d = buildDeck(all, size)
     setDeck(d)
     setResults({})
     setCurrentIdx(0)

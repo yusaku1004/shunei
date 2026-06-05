@@ -23,7 +23,15 @@ export default function SettingsScreen({ onBack, onManage }) {
     () => Number(localStorage.getItem('shunei_ttsrate')) || 0.9
   )
   const [theme, setTheme] = useState(getThemePref)
+  const [deckSize, setDeckSize] = useState(
+    () => Number(localStorage.getItem('shunei_decksize')) || 7
+  )
   const { speak } = useTTS()
+
+  function changeDeckSize(n) {
+    setDeckSize(n)
+    localStorage.setItem('shunei_decksize', String(n))
+  }
 
   function changeTheme(pref) {
     setTheme(pref)
@@ -190,6 +198,24 @@ export default function SettingsScreen({ onBack, onManage }) {
       {/* Study settings */}
       <section className="settings-section">
         <h3>学習設定</h3>
+        <div className="setting-row">
+          <div className="setting-label">
+            <span className="setting-title">デッキの枚数</span>
+            <span className="setting-desc">デッキ周回で1周に扱う文の数</span>
+          </div>
+          <div className="speed-chips">
+            {[5, 7, 10, 15].map((n) => (
+              <button
+                key={n}
+                className={`speed-chip ${deckSize === n ? 'active' : ''}`}
+                onClick={() => changeDeckSize(n)}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="setting-row">
           <div className="setting-label">
             <span className="setting-title">答えの音声を自動再生</span>

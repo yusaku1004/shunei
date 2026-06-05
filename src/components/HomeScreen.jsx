@@ -54,6 +54,7 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
   const { streak } = useStreak()
 
+  const deckSize    = Number(localStorage.getItem('shunei_decksize')) || 7
   const total       = sentences?.length ?? 0
   const dueCount    = sentences?.filter(isDue).length ?? 0
   const studiedCount = sentences?.filter(s => (s.reps || 0) > 0).length ?? 0
@@ -99,7 +100,7 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
           <div className="mode-icon">🔄</div>
           <div className="mode-info">
             <h3>デッキ周回</h3>
-            <p>10文を全部○になるまでループ<br />型を体に染み込ませる</p>
+            <p>{deckSize}文を全部○になるまでループ<br />型を体に染み込ませる</p>
           </div>
           <div className="mode-arrow">›</div>
         </button>

@@ -1,7 +1,7 @@
 // Deck Cycle Mode engine
 // Loops a fixed deck until every card is scored ○ in this session
 
-export function buildDeck(sentences, maxSize = 10) {
+export function buildDeck(sentences, maxSize = 7) {
   // Prioritize lower boxes, then shuffle
   const sorted = [...sentences].sort((a, b) => a.box - b.box)
   const deck = sorted.slice(0, maxSize)
