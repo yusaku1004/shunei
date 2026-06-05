@@ -3,7 +3,7 @@ import { useTTS } from '../hooks/useTTS'
 import { useTimer } from '../hooks/useTimer'
 import { STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
 
-const SPEED_THRESHOLD = 5
+const SPEED_THRESHOLD = 8
 const SWIPE_THRESHOLD = 72
 
 // デスクトップ（マウス/キーボード操作）かどうかを一度だけ判定
