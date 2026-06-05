@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { db } from '../db/index'
+import { db, bumpDailyCount } from '../db/index'
 import { gradeCard, getSRSDue } from '../engines/leitner'
 import { useStreak } from '../hooks/useStreak'
 import FlashCard from './FlashCard'
@@ -48,6 +48,7 @@ export default function SRSSession({ onHome }) {
 
     const update = gradeCard(card, score)
     await db.sentences.update(card.id, update)
+    bumpDailyCount(1)
     setScored((n) => n + 1)
 
     if (score === 'good') {
@@ -78,6 +79,7 @@ export default function SRSSession({ onHome }) {
       ease: card.ease,
       interval: card.interval,
     })
+    bumpDailyCount(-1)
     setCurrentIdx(snap.currentIdx)
     setCombo(snap.combo)
     setMaxCombo(snap.maxCombo)

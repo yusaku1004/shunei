@@ -3,11 +3,12 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/index'
 import { SAMPLE_SENTENCES } from '../data/sampleSentences'
 import { useTTS } from '../hooks/useTTS'
+import { getThemePref, setThemePref } from '../theme'
 
 const TAGS = [...new Set(SAMPLE_SENTENCES.map((s) => s.tag))]
 const LEVELS = [1, 2, 3, 4]
 
-export default function SettingsScreen({ onBack }) {
+export default function SettingsScreen({ onBack, onManage }) {
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('anthropic_key') || '')
   const [generating, setGenerating] = useState(false)
   const [genStatus, setGenStatus] = useState('')
@@ -21,7 +22,13 @@ export default function SettingsScreen({ onBack }) {
   const [ttsRate, setTtsRate] = useState(
     () => Number(localStorage.getItem('shunei_ttsrate')) || 0.9
   )
+  const [theme, setTheme] = useState(getThemePref)
   const { speak } = useTTS()
+
+  function changeTheme(pref) {
+    setTheme(pref)
+    setThemePref(pref)
+  }
 
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
 
@@ -148,6 +155,35 @@ export default function SettingsScreen({ onBack }) {
               <span className="tag-count">{count}文</span>
             </div>
           ))}
+        </div>
+        <button className="btn-primary" style={{ marginTop: 14 }} onClick={onManage}>
+          ✏️ 文を追加・編集する
+        </button>
+      </section>
+
+      {/* Appearance */}
+      <section className="settings-section">
+        <h3>表示</h3>
+        <div className="setting-row">
+          <div className="setting-label">
+            <span className="setting-title">テーマ</span>
+            <span className="setting-desc">ダークモードの切り替え</span>
+          </div>
+          <div className="speed-chips">
+            {[
+              { v: 'light', label: 'ライト' },
+              { v: 'dark', label: 'ダーク' },
+              { v: 'auto', label: '自動' },
+            ].map(({ v, label }) => (
+              <button
+                key={v}
+                className={`speed-chip ${theme === v ? 'active' : ''}`}
+                onClick={() => changeTheme(v)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { db } from '../db/index'
+import { db, bumpDailyCount } from '../db/index'
 import { gradeCard } from '../engines/leitner'
 import { buildDeck, isDeckComplete } from '../engines/deckCycle'
 import { useStreak } from '../hooks/useStreak'
@@ -52,6 +52,7 @@ export default function DeckSession({ onHome }) {
 
     const update = gradeCard(card, score)
     await db.sentences.update(card.id, update)
+    bumpDailyCount(1)
 
     const newResults = { ...results, [card.id]: score }
     setResults(newResults)
@@ -93,6 +94,7 @@ export default function DeckSession({ onHome }) {
       ease: card.ease,
       interval: card.interval,
     })
+    bumpDailyCount(-1)
     setResults(snap.results)
     setCurrentIdx(snap.currentIdx)
     setCombo(snap.combo)

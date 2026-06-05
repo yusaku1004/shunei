@@ -50,7 +50,7 @@ function BoxDistBar({ sentences }) {
   )
 }
 
-export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings }) {
+export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, onOpenStats }) {
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
   const { streak } = useStreak()
 
@@ -77,7 +77,7 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings }) 
         )}
       </header>
 
-      <div className="stats-row">
+      <button className="stats-row" onClick={onOpenStats} aria-label="学習の記録を見る">
         <div className="stat-card">
           <span className="stat-num">{total}</span>
           <span className="stat-label">総文数</span>
@@ -90,7 +90,7 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings }) 
           <span className="stat-num">{masteredCount}</span>
           <span className="stat-label">習得済み</span>
         </div>
-      </div>
+      </button>
 
       <BoxDistBar sentences={sentences} />
 

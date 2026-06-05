@@ -64,3 +64,38 @@ export async function getSetting(key, defaultVal = null) {
 export async function setSetting(key, value) {
   await db.settings.put({ key, value })
 }
+
+export function dateKey(d = new Date()) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+function todayKey() {
+  return dateKey()
+}
+
+// 日次の採点数を記録（統計ヒートマップ用）。undo 時は delta=-1 で減算。
+export async function bumpDailyCount(delta = 1) {
+  const counts = await getSetting('daily_counts', {})
+  const k = todayKey()
+  counts[k] = Math.max(0, (counts[k] || 0) + delta)
+  await setSetting('daily_counts', counts)
+}
+
+export async function getDailyCounts() {
+  return getSetting('daily_counts', {})
+}
+
+// 手動追加した文に学習用フィールドを付与
+export function newSentenceRecord({ jp, en, tag, level }) {
+  return {
+    jp: jp.trim(),
+    en: en.trim(),
+    tag: (tag || 'カスタム').trim(),
+    level: Number(level) || 1,
+    box: 1,
+    ease: 2.5,
+    interval: 1,
+    next_due: new Date().toISOString(),
+    reps: 0,
+  }
+}
