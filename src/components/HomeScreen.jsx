@@ -101,7 +101,12 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
         <div className="home-greeting">{greeting}</div>
         <h1 className="app-title">瞬英</h1>
         {streak > 0 && (
-          <div className="streak-badge">🔥 {streak}日連続</div>
+          <div className="streak-badge">
+            <svg className="streak-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 23c4.4 0 7-3 7-6.5 0-2.6-1.5-4.7-2.7-6.2-.3 1.2-1 2-1.8 2.4.2-2.3-.7-5.1-3.5-7.7-.3 2.6-1.6 4-3 5.6C6.4 11.6 5 13.6 5 16.5 5 20 7.6 23 12 23z" />
+            </svg>
+            {streak}日連続
+          </div>
         )}
       </header>
 
@@ -147,7 +152,14 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
 
       <div className="mode-cards">
         <button className="mode-card deck" onClick={onStartDeck}>
-          <div className="mode-icon">🔄</div>
+          <div className="mode-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+              <path d="M21 3v5h-5" />
+              <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+              <path d="M3 21v-5h5" />
+            </svg>
+          </div>
           <div className="mode-info">
             <h3>デッキ周回</h3>
             <p>{deckSize}文を全部○になるまでループ<br />型を体に染み込ませる</p>
@@ -156,7 +168,13 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
         </button>
 
         <button className="mode-card srs" onClick={onStartSRS}>
-          <div className="mode-icon">📅</div>
+          <div className="mode-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M16 2v4M8 2v4M3 10h18" />
+              <path d="M9 16l2 2 4-4" />
+            </svg>
+          </div>
           <div className="mode-info">
             <h3>SRS復習</h3>
             <p>
@@ -170,7 +188,11 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
       </div>
 
       <button className="btn-settings" onClick={onOpenSettings}>
-        ⚙ 設定・文の管理
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
+        設定・文の管理
       </button>
     </div>
   )
