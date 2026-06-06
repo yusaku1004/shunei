@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/index'
 import { isDue, STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
+import { progressByKey } from '../engines/progress'
 import { useStreak } from '../hooks/useStreak'
 import { getStudyLevels, setStudyLevels, ALL_LEVELS } from '../studyPrefs'
 
@@ -65,6 +66,8 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
   const studiedCount = sentences?.filter(s => (s.reps || 0) > 0).length ?? 0
   const masteredCount = sentences?.filter(s => s.box === 5).length ?? 0
   const allLevels   = levels.length === ALL_LEVELS.length
+  const overallPct  = total ? Math.round((masteredCount / total) * 100) : 0
+  const levelPct    = useMemo(() => progressByKey(sentences ?? [], s => s.level), [sentences])
 
   function toggleLevel(n) {
     let next
@@ -126,7 +129,8 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
             className={`level-chip ${allLevels ? 'active' : ''}`}
             onClick={selectAllLevels}
           >
-            すべて
+            <span className="level-chip-name">すべて</span>
+            <span className="level-chip-pct">{overallPct}%</span>
           </button>
           {ALL_LEVELS.map((n) => (
             <button
@@ -134,7 +138,8 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
               className={`level-chip ${!allLevels && levels.includes(n) ? 'active' : ''}`}
               onClick={() => toggleLevel(n)}
             >
-              Lv{n}
+              <span className="level-chip-name">Lv{n}</span>
+              <span className="level-chip-pct">{(levelPct.get(n)?.pct ?? 0)}%</span>
             </button>
           ))}
         </div>

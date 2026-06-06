@@ -6,6 +6,7 @@ import SRSSession from './components/SRSSession'
 import SettingsScreen from './components/SettingsScreen'
 import SentenceManager from './components/SentenceManager'
 import StatsScreen from './components/StatsScreen'
+import { setStudyLevels } from './studyPrefs'
 
 export default function App() {
   const [screen, setScreen] = useState('home')
@@ -25,7 +26,14 @@ export default function App() {
     )
   }
   if (screen === 'manage') return <SentenceManager onBack={() => setScreen('settings')} />
-  if (screen === 'stats') return <StatsScreen onBack={() => setScreen('home')} />
+  if (screen === 'stats') {
+    return (
+      <StatsScreen
+        onBack={() => setScreen('home')}
+        onStudyLevel={(lv) => { setStudyLevels([lv]); setScreen('deck') }}
+      />
+    )
+  }
 
   return (
     <HomeScreen
