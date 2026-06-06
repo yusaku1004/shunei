@@ -201,6 +201,40 @@ input, select { font: inherit; color: inherit; }
 .stat-num { font-size: 1.9rem; font-weight: 800; color: var(--text); }
 .stat-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; }
 
+/* Level filter */
+.level-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  box-shadow: var(--shadow-sm);
+}
+.level-filter-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.level-chips { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; justify-content: flex-end; }
+.level-chip {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: transform 0.1s;
+}
+.level-chip.active {
+  background: var(--accent-pale);
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+.level-chip:active { transform: scale(0.92); }
+
 /* Mode cards */
 .mode-cards { display: flex; flex-direction: column; gap: 12px; }
 

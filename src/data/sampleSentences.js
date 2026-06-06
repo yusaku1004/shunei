@@ -348,4 +348,68 @@ export const SAMPLE_SENTENCES = [
   { jp: 'お水をもう一杯いただけますか？', en: 'Could I have another glass of water?', tag: 'レストラン', level: 1 },
   { jp: '辛い料理は苦手です。', en: 'I am not good with spicy food.', tag: 'レストラン', level: 1 },
   { jp: 'テイクアウトにしていただけますか？', en: 'Could I get this to go?', tag: 'レストラン', level: 1 },
+
+  // =====================
+  // 入門 追加（Lv1）
+  // =====================
+  // be動詞
+  { jp: '私は日本出身です。', en: 'I am from Japan.', tag: 'be動詞', level: 1 },
+  { jp: '今日は月曜日です。', en: 'Today is Monday.', tag: 'be動詞', level: 1 },
+  { jp: '彼女はとても親切です。', en: 'She is very kind.', tag: 'be動詞', level: 1 },
+  { jp: '私のかばんは新しいです。', en: 'My bag is new.', tag: 'be動詞', level: 1 },
+  { jp: '彼らは今、忙しいです。', en: 'They are busy now.', tag: 'be動詞', level: 1 },
+  { jp: 'この部屋は暖かいです。', en: 'This room is warm.', tag: 'be動詞', level: 1 },
+
+  // 一般動詞
+  { jp: '私は犬が好きです。', en: 'I like dogs.', tag: '一般動詞', level: 1 },
+  { jp: '彼は車を持っています。', en: 'He has a car.', tag: '一般動詞', level: 1 },
+  { jp: '私たちは家族と住んでいます。', en: 'We live with our family.', tag: '一般動詞', level: 1 },
+  { jp: '彼女は紅茶を飲みます。', en: 'She drinks tea.', tag: '一般動詞', level: 1 },
+  { jp: '私は毎朝、朝ごはんを食べます。', en: 'I eat breakfast every morning.', tag: '一般動詞', level: 1 },
+  { jp: '彼は毎日テレビを見ます。', en: 'He watches TV every day.', tag: '一般動詞', level: 1 },
+  { jp: '私は歩いて学校へ行きます。', en: 'I walk to school.', tag: '一般動詞', level: 1 },
+
+  // 現在進行形
+  { jp: '私は今、昼ごはんを食べています。', en: 'I am eating lunch now.', tag: '現在進行形', level: 1 },
+  { jp: '彼は音楽を聴いています。', en: 'He is listening to music.', tag: '現在進行形', level: 1 },
+  { jp: '彼女は手紙を書いています。', en: 'She is writing a letter.', tag: '現在進行形', level: 1 },
+
+  // 過去形
+  { jp: '私は昨日、本を買いました。', en: 'I bought a book yesterday.', tag: '過去形', level: 1 },
+  { jp: '彼は朝早く起きました。', en: 'He got up early in the morning.', tag: '過去形', level: 1 },
+  { jp: '私たちは公園を歩きました。', en: 'We walked in the park.', tag: '過去形', level: 1 },
+
+  // 未来形
+  { jp: '私は明日、家にいます。', en: 'I will be at home tomorrow.', tag: '未来形', level: 1 },
+  { jp: '彼女は今夜、来ます。', en: 'She will come tonight.', tag: '未来形', level: 1 },
+
+  // 助動詞
+  { jp: '私は泳ぐことができます。', en: 'I can swim.', tag: '助動詞', level: 1 },
+  { jp: 'ここに座ってもいいですか？', en: 'Can I sit here?', tag: '助動詞', level: 1 },
+
+  // 比較
+  { jp: '犬は猫より大きいです。', en: 'Dogs are bigger than cats.', tag: '比較', level: 1 },
+  { jp: 'これが一番いいです。', en: 'This is the best.', tag: '比較', level: 1 },
+
+  // 日常会話
+  { jp: 'お元気ですか？', en: 'How are you?', tag: '日常会話', level: 1 },
+  { jp: '今、何時ですか？', en: 'What time is it now?', tag: '日常会話', level: 1 },
+  { jp: 'これはいくらですか？', en: 'How much is this?', tag: '日常会話', level: 1 },
+  { jp: 'ありがとう、助かりました。', en: 'Thank you, that helped.', tag: '日常会話', level: 1 },
+  { jp: 'また明日会いましょう。', en: 'See you tomorrow.', tag: '日常会話', level: 1 },
+  { jp: '私もそう思います。', en: 'I think so too.', tag: '日常会話', level: 1 },
+
+  // レストラン
+  { jp: 'メニューを見せてください。', en: 'Could I see the menu, please?', tag: 'レストラン', level: 1 },
+  { jp: 'コーヒーを一杯ください。', en: 'Can I have a cup of coffee?', tag: 'レストラン', level: 1 },
+
+  // 旅行
+  { jp: '駅はどこですか？', en: 'Where is the station?', tag: '旅行', level: 1 },
+  { jp: '写真を撮ってもいいですか？', en: 'Can I take a picture?', tag: '旅行', level: 1 },
+
+  // 健康
+  { jp: 'お腹が痛いです。', en: 'I have a stomachache.', tag: '健康', level: 1 },
+
+  // IT
+  { jp: 'パソコンが動きません。', en: 'My computer is not working.', tag: 'IT', level: 1 },
 ]
