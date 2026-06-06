@@ -60,7 +60,7 @@ export const SAMPLE_SENTENCES = [
   { jp: '子供のころ、私はよく祖父母の家を訪ねました。', en: 'As a child, I often visited my grandparents\' house.', tag: '過去形', level: 2 },
   { jp: '彼はその知らせを聞いて驚きました。', en: 'He was surprised to hear the news.', tag: '過去形', level: 2 },
   { jp: 'その問題を解決するのに3時間かかりました。', en: 'It took us three hours to solve the problem.', tag: '過去形', level: 2 },
-  { jp: '彼女はその時、涙をこらえられませんでした。', en: 'She could not hold back her tears at that time.', tag: '過去形', level: 3 },
+  { jp: '彼女はその時、涙をこらえられませんでした。', en: 'She could not hold back her tears at that moment.', tag: '過去形', level: 3 },
 
   // =====================
   // 未来形
@@ -70,9 +70,9 @@ export const SAMPLE_SENTENCES = [
   { jp: '会議は3時に始まります。', en: 'The meeting will start at three.', tag: '未来形', level: 2 },
   { jp: '明日は晴れるでしょう。', en: 'It will be sunny tomorrow.', tag: '未来形', level: 1 },
   { jp: '彼は来月、転職する予定です。', en: 'He is going to change jobs next month.', tag: '未来形', level: 2 },
-  { jp: '新しいシステムは来週から使えるようになります。', en: 'The new system will be available from next week.', tag: '未来形', level: 3 },
+  { jp: '新しいシステムは来週から使えるようになります。', en: 'The new system will be available starting next week.', tag: '未来形', level: 3 },
   { jp: '彼女は3年後に結婚する予定です。', en: 'She is going to get married in three years.', tag: '未来形', level: 2 },
-  { jp: '来週から新しい習慣を始めるつもりです。', en: 'I am going to start a new habit from next week.', tag: '未来形', level: 2 },
+  { jp: '来週から新しい習慣を始めるつもりです。', en: 'I am going to start a new habit next week.', tag: '未来形', level: 2 },
   { jp: 'いつかは自分のビジネスを持ちたいと思っています。', en: 'I hope to have my own business someday.', tag: '未来形', level: 3 },
 
   // =====================
@@ -112,7 +112,7 @@ export const SAMPLE_SENTENCES = [
   { jp: 'ここでは静かにしなければなりません。', en: 'You must be quiet here.', tag: '助動詞', level: 1 },
   { jp: 'もう少し考えさせてください。', en: 'Please let me think about it a little more.', tag: '助動詞', level: 2 },
   { jp: '彼はもっと努力すべきだったと思います。', en: 'I think he should have tried harder.', tag: '助動詞', level: 3 },
-  { jp: '何かあれば遠慮なく言ってください。', en: 'Please feel free to say anything if there is a problem.', tag: '助動詞', level: 2 },
+  { jp: '何かあれば遠慮なく言ってください。', en: 'Please feel free to let me know if you need anything.', tag: '助動詞', level: 2 },
 
   // =====================
   // 比較級・最上級
@@ -167,7 +167,7 @@ export const SAMPLE_SENTENCES = [
   { jp: '私の提案は受け入れられませんでした。', en: 'My proposal was not accepted.', tag: '受動態', level: 3 },
   { jp: 'その試合は雨のために中止されました。', en: 'The game was canceled because of the rain.', tag: '受動態', level: 2 },
   { jp: 'その本は多くの言語に翻訳されています。', en: 'The book has been translated into many languages.', tag: '受動態', level: 2 },
-  { jp: '会議は突然キャンセルされました。', en: 'The meeting was suddenly cancelled.', tag: '受動態', level: 2 },
+  { jp: '会議は突然キャンセルされました。', en: 'The meeting was suddenly canceled.', tag: '受動態', level: 2 },
   { jp: '彼女は新しいプロジェクトのリーダーに選ばれました。', en: 'She was chosen as the leader of the new project.', tag: '受動態', level: 3 },
 
   // =====================
@@ -233,7 +233,7 @@ export const SAMPLE_SENTENCES = [
   { jp: 'ご検討のほどよろしくお願いいたします。', en: 'Thank you for your consideration.', tag: 'ビジネス', level: 3 },
   { jp: '来週の月曜日にご都合はいかがですか？', en: 'Would Monday next week work for you?', tag: 'ビジネス', level: 3 },
   { jp: '締め切りを延ばすことは可能でしょうか？', en: 'Would it be possible to extend the deadline?', tag: 'ビジネス', level: 3 },
-  { jp: '先ほどのご説明について確認させてください。', en: 'Let me clarify what you explained earlier.', tag: 'ビジネス', level: 3 },
+  { jp: '先ほどのご説明について確認させてください。', en: 'Let me make sure I understood what you explained earlier.', tag: 'ビジネス', level: 3 },
   { jp: 'お手数をおかけして申し訳ございません。', en: 'I am sorry for the inconvenience.', tag: 'ビジネス', level: 3 },
   { jp: '詳細については追ってご連絡いたします。', en: 'I will follow up with the details later.', tag: 'ビジネス', level: 3 },
   { jp: '次回の会議は来週木曜日を予定しています。', en: 'The next meeting is scheduled for Thursday next week.', tag: 'ビジネス', level: 3 },
@@ -277,7 +277,7 @@ export const SAMPLE_SENTENCES = [
   { jp: '観光スポットを教えてもらえますか？', en: 'Could you tell me about the tourist spots?', tag: '旅行', level: 2 },
   { jp: 'この電車はロンドン行きですか？', en: 'Is this train going to London?', tag: '旅行', level: 1 },
   { jp: '一人で世界を旅するのが夢です。', en: 'My dream is to travel around the world alone.', tag: '旅行', level: 2 },
-  { jp: 'この辺でおすすめのレストランはありますか？', en: 'Is there any restaurant you recommend around here?', tag: '旅行', level: 2 },
+  { jp: 'この辺でおすすめのレストランはありますか？', en: 'Is there a restaurant you would recommend around here?', tag: '旅行', level: 2 },
   { jp: 'パスポートを忘れてしまいました。', en: 'I forgot my passport.', tag: '旅行', level: 2 },
   { jp: '荷物を預けることはできますか？', en: 'Can I leave my luggage here?', tag: '旅行', level: 2 },
   { jp: '一番近い地下鉄の駅はどこですか？', en: 'Where is the nearest subway station?', tag: '旅行', level: 1 },
@@ -295,8 +295,8 @@ export const SAMPLE_SENTENCES = [
   { jp: 'もっと野菜を食べるべきだとわかっています。', en: 'I know I should eat more vegetables.', tag: '健康', level: 2 },
   { jp: '頭痛がします。', en: 'I have a headache.', tag: '健康', level: 1 },
   { jp: '少し熱があるようです。', en: 'It seems like I have a slight fever.', tag: '健康', level: 2 },
-  { jp: '最近、疲れが取れません。', en: 'I have not been able to shake off my fatigue lately.', tag: '健康', level: 3 },
-  { jp: '定期的に健康診断を受けることをお勧めします。', en: 'I recommend getting a regular health checkup.', tag: '健康', level: 3 },
+  { jp: '最近、疲れが取れません。', en: 'I cannot seem to shake off my tiredness lately.', tag: '健康', level: 3 },
+  { jp: '定期的に健康診断を受けることをお勧めします。', en: 'I recommend getting regular health checkups.', tag: '健康', level: 3 },
 
   // =====================
   // 分詞・分詞構文
@@ -315,7 +315,7 @@ export const SAMPLE_SENTENCES = [
   { jp: 'プラスチックゴミを減らすことが重要です。', en: 'It is important to reduce plastic waste.', tag: '社会', level: 3 },
   { jp: 'AIは私たちの働き方を変えるでしょう。', en: 'AI will change the way we work.', tag: '社会', level: 3 },
   { jp: '多様性を認め合うことが大切です。', en: 'It is important to accept and respect diversity.', tag: '社会', level: 3 },
-  { jp: '再生可能エネルギーへの移行が求められています。', en: 'A shift to renewable energy is required.', tag: '社会', level: 4 },
+  { jp: '再生可能エネルギーへの移行が求められています。', en: 'A shift to renewable energy is needed.', tag: '社会', level: 4 },
 
   // =====================
   // 感情・意見
