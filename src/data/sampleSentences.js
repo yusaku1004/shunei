@@ -12,7 +12,7 @@ export const SAMPLE_SENTENCES = [
   { jp: '私は今、とても疲れています。', en: 'I am very tired now.', tag: 'be動詞', level: 1 },
   { jp: '彼は背が高くて、親切です。', en: 'He is tall and kind.', tag: 'be動詞', level: 1 },
   { jp: '空は今日、青いです。', en: 'The sky is blue today.', tag: 'be動詞', level: 1 },
-  { jp: 'この問題はとても難しいです。', en: 'This problem is very difficult.', tag: 'be動詞', level: 1 },
+  { jp: 'この問題はとても難しいです。', en: 'This problem is very hard.', tag: 'be動詞', level: 1 },
   { jp: '私たちは同じクラスです。', en: 'We are in the same class.', tag: 'be動詞', level: 1 },
 
   // =====================
@@ -60,7 +60,7 @@ export const SAMPLE_SENTENCES = [
   { jp: '子供のころ、私はよく祖父母の家を訪ねました。', en: 'As a child, I often visited my grandparents\' house.', tag: '過去形', level: 2 },
   { jp: '彼はその知らせを聞いて驚きました。', en: 'He was surprised to hear the news.', tag: '過去形', level: 2 },
   { jp: 'その問題を解決するのに3時間かかりました。', en: 'It took us three hours to solve the problem.', tag: '過去形', level: 2 },
-  { jp: '彼女はその時、涙をこらえられませんでした。', en: 'She could not hold back her tears at that moment.', tag: '過去形', level: 3 },
+  { jp: '彼女はその時、涙をこらえられませんでした。', en: 'She could not stop her tears at that moment.', tag: '過去形', level: 3 },
 
   // =====================
   // 未来形
@@ -70,7 +70,7 @@ export const SAMPLE_SENTENCES = [
   { jp: '会議は3時に始まります。', en: 'The meeting will start at three.', tag: '未来形', level: 2 },
   { jp: '明日は晴れるでしょう。', en: 'It will be sunny tomorrow.', tag: '未来形', level: 1 },
   { jp: '彼は来月、転職する予定です。', en: 'He is going to change jobs next month.', tag: '未来形', level: 2 },
-  { jp: '新しいシステムは来週から使えるようになります。', en: 'The new system will be available starting next week.', tag: '未来形', level: 3 },
+  { jp: '新しいシステムは来週から使えるようになります。', en: 'You will be able to use the new system next week.', tag: '未来形', level: 3 },
   { jp: '彼女は3年後に結婚する予定です。', en: 'She is going to get married in three years.', tag: '未来形', level: 2 },
   { jp: '来週から新しい習慣を始めるつもりです。', en: 'I am going to start a new habit next week.', tag: '未来形', level: 2 },
   { jp: 'いつかは自分のビジネスを持ちたいと思っています。', en: 'I hope to have my own business someday.', tag: '未来形', level: 3 },
@@ -83,7 +83,7 @@ export const SAMPLE_SENTENCES = [
   { jp: '私はここに3年間住んでいます。', en: 'I have lived here for three years.', tag: '現在完了', level: 2 },
   { jp: '彼女はちょうど昼食を終えたところです。', en: 'She has just finished lunch.', tag: '現在完了', level: 2 },
   { jp: '私はこの会社で10年間働いています。', en: 'I have worked at this company for ten years.', tag: '現在完了', level: 2 },
-  { jp: '私たちはまだ結論に達していません。', en: 'We have not reached a conclusion yet.', tag: '現在完了', level: 3 },
+  { jp: '私たちはまだ結論に達していません。', en: 'We have not made a decision yet.', tag: '現在完了', level: 3 },
   { jp: '彼はその本を3回読んだことがあります。', en: 'He has read that book three times.', tag: '現在完了', level: 2 },
   { jp: '最近、物価が上がっています。', en: 'Prices have been rising recently.', tag: '現在完了', level: 3 },
   { jp: '彼女はずっとその問題について考えてきました。', en: 'She has been thinking about that problem.', tag: '現在完了', level: 3 },
@@ -121,12 +121,12 @@ export const SAMPLE_SENTENCES = [
   { jp: '今日は昨日より暑いです。', en: 'It is hotter today than yesterday.', tag: '比較', level: 1 },
   { jp: '英語はフランス語より簡単だと思います。', en: 'I think English is easier than French.', tag: '比較', level: 2 },
   { jp: '富士山は日本で一番高い山です。', en: 'Mt. Fuji is the highest mountain in Japan.', tag: '比較', level: 1 },
-  { jp: 'これは私が今まで食べた中で一番おいしい料理です。', en: 'This is the most delicious food I have ever eaten.', tag: '比較', level: 3 },
+  { jp: 'これは私が今まで食べた中で一番おいしい料理です。', en: 'This is the best food I have ever eaten.', tag: '比較', level: 3 },
   { jp: '彼女はクラスの中で一番頑張っています。', en: 'She works the hardest in the class.', tag: '比較', level: 2 },
   { jp: '新しいモデルは古いものより2倍速いです。', en: 'The new model is twice as fast as the old one.', tag: '比較', level: 3 },
-  { jp: '私は電車よりバスのほうが好きです。', en: 'I prefer buses to trains.', tag: '比較', level: 2 },
+  { jp: '私は電車よりバスのほうが好きです。', en: 'I like buses better than trains.', tag: '比較', level: 2 },
   { jp: '彼の新しいアパートは前のより広いです。', en: 'His new apartment is bigger than his old one.', tag: '比較', level: 2 },
-  { jp: 'この方法はあの方法ほど効果的ではありません。', en: 'This method is not as effective as that one.', tag: '比較', level: 2 },
+  { jp: 'この方法はあの方法ほど効果的ではありません。', en: 'This method does not work as well as that one.', tag: '比較', level: 2 },
   { jp: '彼女はクラスで一番の努力家です。', en: 'She is the most hardworking student in the class.', tag: '比較', level: 2 },
 
   // =====================
@@ -149,7 +149,7 @@ export const SAMPLE_SENTENCES = [
   { jp: '早起きすることは体にいいです。', en: 'Getting up early is good for your health.', tag: '動名詞', level: 2 },
   { jp: '毎日運動することが大切です。', en: 'Exercising every day is important.', tag: '動名詞', level: 2 },
   { jp: '彼は人前で話すことが苦手です。', en: 'He is not good at speaking in public.', tag: '動名詞', level: 2 },
-  { jp: '新しい言語を学ぶことは挑戦的ですが楽しいです。', en: 'Learning a new language is challenging but fun.', tag: '動名詞', level: 2 },
+  { jp: '新しい言語を学ぶことは挑戦的ですが楽しいです。', en: 'Learning a new language is hard but fun.', tag: '動名詞', level: 2 },
   { jp: '私は写真を撮るのが趣味です。', en: 'Taking pictures is my hobby.', tag: '動名詞', level: 1 },
   { jp: '彼女は音楽を聴かずには眠れません。', en: 'She cannot sleep without listening to music.', tag: '動名詞', level: 3 },
   { jp: '毎日少しずつ練習することが大切です。', en: 'It is important to keep practicing a little every day.', tag: '動名詞', level: 2 },
@@ -162,8 +162,8 @@ export const SAMPLE_SENTENCES = [
   { jp: 'この橋は100年前に建てられました。', en: 'This bridge was built 100 years ago.', tag: '受動態', level: 2 },
   { jp: '英語は世界中で話されています。', en: 'English is spoken all over the world.', tag: '受動態', level: 2 },
   { jp: 'その映画は若者に人気があります。', en: 'The movie is popular among young people.', tag: '受動態', level: 2 },
-  { jp: 'このレポートは明日までに提出しなければなりません。', en: 'This report must be submitted by tomorrow.', tag: '受動態', level: 3 },
-  { jp: '彼は先週、社長に任命されました。', en: 'He was appointed president last week.', tag: '受動態', level: 3 },
+  { jp: 'このレポートは明日までに提出しなければなりません。', en: 'This report must be handed in by tomorrow.', tag: '受動態', level: 3 },
+  { jp: '彼は先週、社長に任命されました。', en: 'He was made president last week.', tag: '受動態', level: 3 },
   { jp: '私の提案は受け入れられませんでした。', en: 'My proposal was not accepted.', tag: '受動態', level: 3 },
   { jp: 'その試合は雨のために中止されました。', en: 'The game was canceled because of the rain.', tag: '受動態', level: 2 },
   { jp: 'その本は多くの言語に翻訳されています。', en: 'The book has been translated into many languages.', tag: '受動態', level: 2 },
@@ -177,7 +177,7 @@ export const SAMPLE_SENTENCES = [
   { jp: '彼は私が尊敬する人です。', en: 'He is a person whom I respect.', tag: '関係代名詞', level: 3 },
   { jp: '私には東京に住んでいる友人がいます。', en: 'I have a friend who lives in Tokyo.', tag: '関係代名詞', level: 2 },
   { jp: 'これが彼が話していた問題です。', en: 'This is the problem that he was talking about.', tag: '関係代名詞', level: 3 },
-  { jp: '彼女が作った料理はとてもおいしかったです。', en: 'The food that she made was very delicious.', tag: '関係代名詞', level: 2 },
+  { jp: '彼女が作った料理はとてもおいしかったです。', en: 'The food that she made was really good.', tag: '関係代名詞', level: 2 },
   { jp: '私は英語が得意な友人に頼みました。', en: 'I asked a friend who is good at English.', tag: '関係代名詞', level: 3 },
   { jp: 'これが私がずっと探していたものです。', en: 'This is what I have been looking for.', tag: '関係代名詞', level: 3 },
   { jp: 'その試験に合格した学生は全員、奨学金をもらいました。', en: 'All the students who passed the exam received scholarships.', tag: '関係代名詞', level: 4 },
@@ -226,7 +226,7 @@ export const SAMPLE_SENTENCES = [
   // =====================
   // ビジネス英語
   // =====================
-  { jp: '会議の日程を確認させてください。', en: 'Let me confirm the meeting schedule.', tag: 'ビジネス', level: 3 },
+  { jp: '会議の日程を確認させてください。', en: 'Let me check the meeting schedule.', tag: 'ビジネス', level: 3 },
   { jp: 'ご連絡をお待ちしております。', en: 'I look forward to hearing from you.', tag: 'ビジネス', level: 3 },
   { jp: 'ご不明な点がございましたらお知らせください。', en: 'Please let me know if you have any questions.', tag: 'ビジネス', level: 3 },
   { jp: '提案書を添付いたします。', en: 'I am attaching the proposal.', tag: 'ビジネス', level: 3 },
@@ -235,17 +235,17 @@ export const SAMPLE_SENTENCES = [
   { jp: '締め切りを延ばすことは可能でしょうか？', en: 'Would it be possible to extend the deadline?', tag: 'ビジネス', level: 3 },
   { jp: '先ほどのご説明について確認させてください。', en: 'Let me make sure I understood what you explained earlier.', tag: 'ビジネス', level: 3 },
   { jp: 'お手数をおかけして申し訳ございません。', en: 'I am sorry for the inconvenience.', tag: 'ビジネス', level: 3 },
-  { jp: '詳細については追ってご連絡いたします。', en: 'I will follow up with the details later.', tag: 'ビジネス', level: 3 },
+  { jp: '詳細については追ってご連絡いたします。', en: 'I will send you the details later.', tag: 'ビジネス', level: 3 },
   { jp: '次回の会議は来週木曜日を予定しています。', en: 'The next meeting is scheduled for Thursday next week.', tag: 'ビジネス', level: 3 },
   { jp: 'このプロジェクトの進捗状況をご報告します。', en: 'I would like to report on the progress of this project.', tag: 'ビジネス', level: 4 },
   { jp: 'ご承認をお願いできますでしょうか？', en: 'Could I ask for your approval?', tag: 'ビジネス', level: 3 },
   { jp: '資料を事前にお送りします。', en: 'I will send you the materials in advance.', tag: 'ビジネス', level: 3 },
-  { jp: 'この件についてご相談したいのですが。', en: 'I would like to discuss this matter with you.', tag: 'ビジネス', level: 3 },
+  { jp: 'この件についてご相談したいのですが。', en: 'I would like to talk about this with you.', tag: 'ビジネス', level: 3 },
   { jp: '進捗報告をいただけますか？', en: 'Could you give me a progress update?', tag: 'ビジネス', level: 3 },
   { jp: 'ご多忙のところ恐れ入りますが。', en: 'I am sorry to bother you when you are busy.', tag: 'ビジネス', level: 3 },
   { jp: 'ご返信をお待ちしております。', en: 'I look forward to your reply.', tag: 'ビジネス', level: 3 },
   { jp: 'ミーティングの場所を変更していただけますか？', en: 'Would it be possible to change the meeting location?', tag: 'ビジネス', level: 3 },
-  { jp: 'この見積もりをご確認いただけますか？', en: 'Could you review this estimate?', tag: 'ビジネス', level: 3 },
+  { jp: 'この見積もりをご確認いただけますか？', en: 'Could you check this estimate?', tag: 'ビジネス', level: 3 },
 
   // =====================
   // 日常会話
@@ -295,7 +295,7 @@ export const SAMPLE_SENTENCES = [
   { jp: 'もっと野菜を食べるべきだとわかっています。', en: 'I know I should eat more vegetables.', tag: '健康', level: 2 },
   { jp: '頭痛がします。', en: 'I have a headache.', tag: '健康', level: 1 },
   { jp: '少し熱があるようです。', en: 'It seems like I have a slight fever.', tag: '健康', level: 2 },
-  { jp: '最近、疲れが取れません。', en: 'I cannot seem to shake off my tiredness lately.', tag: '健康', level: 3 },
+  { jp: '最近、疲れが取れません。', en: 'I cannot get rid of my tiredness lately.', tag: '健康', level: 3 },
   { jp: '定期的に健康診断を受けることをお勧めします。', en: 'I recommend getting regular health checkups.', tag: '健康', level: 3 },
 
   // =====================
@@ -310,9 +310,9 @@ export const SAMPLE_SENTENCES = [
   // =====================
   // 社会・環境
   // =====================
-  { jp: '環境問題は私たち全員に関係しています。', en: 'Environmental issues concern all of us.', tag: '社会', level: 3 },
+  { jp: '環境問題は私たち全員に関係しています。', en: 'Environmental problems affect all of us.', tag: '社会', level: 3 },
   { jp: 'リモートワークが普及してきています。', en: 'Remote work is becoming more common.', tag: '社会', level: 3 },
-  { jp: 'プラスチックゴミを減らすことが重要です。', en: 'It is important to reduce plastic waste.', tag: '社会', level: 3 },
+  { jp: 'プラスチックゴミを減らすことが重要です。', en: 'It is important to use less plastic.', tag: '社会', level: 3 },
   { jp: 'AIは私たちの働き方を変えるでしょう。', en: 'AI will change the way we work.', tag: '社会', level: 3 },
   { jp: '多様性を認め合うことが大切です。', en: 'It is important to accept and respect diversity.', tag: '社会', level: 3 },
   { jp: '再生可能エネルギーへの移行が求められています。', en: 'A shift to renewable energy is needed.', tag: '社会', level: 4 },
@@ -324,9 +324,9 @@ export const SAMPLE_SENTENCES = [
   { jp: 'そのニュースを聞いてがっかりしました。', en: 'I was disappointed to hear the news.', tag: '感情', level: 2 },
   { jp: 'あなたがそう言ってくれて嬉しいです。', en: 'I am glad you said that.', tag: '感情', level: 1 },
   { jp: 'それは思ったよりずっと難しかったです。', en: 'It was much harder than I expected.', tag: '感情', level: 2 },
-  { jp: '正直、その提案には賛成できません。', en: 'Honestly, I cannot agree with that proposal.', tag: '感情', level: 3 },
+  { jp: '正直、その提案には賛成できません。', en: 'Honestly, I cannot agree with that idea.', tag: '感情', level: 3 },
   { jp: '彼の話を聞いて心が動かされました。', en: 'I was touched by his story.', tag: '感情', level: 3 },
-  { jp: 'この状況に少しイライラしています。', en: 'I am a little frustrated with this situation.', tag: '感情', level: 2 },
+  { jp: 'この状況に少しイライラしています。', en: 'I am a little annoyed with this situation.', tag: '感情', level: 2 },
   { jp: 'もっと早く気づけばよかったと思います。', en: 'I wish I had noticed it sooner.', tag: '感情', level: 3 },
 
   // =====================
