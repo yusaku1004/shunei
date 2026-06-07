@@ -270,19 +270,7 @@ input, select { font: inherit; color: inherit; }
 .level-prog-card + .level-prog-card { border-top: 1.5px solid var(--border); }
 .level-prog-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .level-prog-name { font-size: 0.95rem; font-weight: 800; color: var(--text); }
-.level-prog-pct { font-size: 0.95rem; font-weight: 800; color: var(--accent-dark); }
-.level-prog-go {
-  margin-left: auto;
-  background: var(--accent-pale);
-  color: var(--accent-dark);
-  border: 1.5px solid var(--accent);
-  border-radius: 999px;
-  padding: 5px 12px;
-  font-size: 0.76rem;
-  font-weight: 800;
-  transition: transform 0.1s;
-}
-.level-prog-go:active { transform: scale(0.94); }
+.level-prog-pct { margin-left: auto; font-size: 0.95rem; font-weight: 800; color: var(--accent-dark); }
 .level-prog-meta {
   display: flex;
   justify-content: space-between;

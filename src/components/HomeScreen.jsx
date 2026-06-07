@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/index'
 import { isDue, STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
@@ -70,6 +70,14 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
     setTag(next)
     setStudyTag(next)
   }
+
+  // 選択中のタグの文が無くなった場合（例: 全削除）は「すべて」に戻す
+  useEffect(() => {
+    if (tag && sentences && !tags.includes(tag)) {
+      setTag(null)
+      setStudyTag(null)
+    }
+  }, [tag, tags, sentences])
 
   const greeting = (() => {
     const h = new Date().getHours()
