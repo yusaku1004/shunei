@@ -1,19 +1,13 @@
-// 出題レベルの絞り込み設定（localStorage）
-const KEY = 'shunei_levels'
+// 学習の絞り込み設定（localStorage）
+// レベル一覧（統計のレベル別表示などで使用）
 export const ALL_LEVELS = [1, 2, 3, 4]
 
-export function getStudyLevels() {
-  try {
-    const v = JSON.parse(localStorage.getItem(KEY))
-    if (Array.isArray(v)) {
-      const valid = v.filter((n) => ALL_LEVELS.includes(n))
-      if (valid.length) return valid
-    }
-  } catch { /* ignore */ }
-  return [...ALL_LEVELS]
+// 出題する文法（タグ）の絞り込み。null = すべて
+const TAG_KEY = 'shunei_tag'
+export function getStudyTag() {
+  return localStorage.getItem(TAG_KEY) || null
 }
-
-export function setStudyLevels(levels) {
-  const valid = levels.filter((n) => ALL_LEVELS.includes(n))
-  localStorage.setItem(KEY, JSON.stringify(valid.length ? valid : ALL_LEVELS))
+export function setStudyTag(tag) {
+  if (!tag || tag === 'all') localStorage.removeItem(TAG_KEY)
+  else localStorage.setItem(TAG_KEY, tag)
 }

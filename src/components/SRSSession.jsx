@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { db, bumpDailyCount } from '../db/index'
 import { gradeCard, getSRSDue } from '../engines/leitner'
-import { getStudyLevels } from '../studyPrefs'
+import { getStudyTag } from '../studyPrefs'
 import { useStreak } from '../hooks/useStreak'
 import FlashCard from './FlashCard'
 import SRSComplete from './SRSComplete'
@@ -27,8 +27,9 @@ export default function SRSSession({ onHome }) {
   async function initQueue() {
     setLoading(true)
     const all = await db.sentences.toArray()
-    const levels = getStudyLevels()
-    const due = getSRSDue(all).filter((s) => levels.includes(s.level))
+    const tag = getStudyTag()
+    let due = getSRSDue(all)
+    if (tag) due = due.filter((s) => s.tag === tag)
     const shuffled = [...due].sort(() => Math.random() - 0.5)
     setQueue(shuffled)
     setCurrentIdx(0)

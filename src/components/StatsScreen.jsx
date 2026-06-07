@@ -30,7 +30,7 @@ function ProgressBar({ p }) {
   )
 }
 
-export default function StatsScreen({ onBack, onStudyLevel }) {
+export default function StatsScreen({ onBack }) {
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
   const { streak } = useStreak()
   const [counts, setCounts] = useState({})
@@ -149,11 +149,6 @@ export default function StatsScreen({ onBack, onStudyLevel }) {
               <div className="level-prog-head">
                 <span className="level-prog-name">Lv{lv}</span>
                 <span className="level-prog-pct">{p.pct}%</span>
-                {onStudyLevel && p.total > 0 && (
-                  <button className="level-prog-go" onClick={() => onStudyLevel(lv)}>
-                    周回 ›
-                  </button>
-                )}
               </div>
               <ProgressBar p={p} />
               <div className="level-prog-meta">

@@ -23,6 +23,9 @@ export default function SettingsScreen({ onBack, onManage }) {
     () => Number(localStorage.getItem('shunei_ttsrate')) || 0.9
   )
   const [theme, setTheme] = useState(getThemePref)
+  const [repeatStep, setRepeatStep] = useState(
+    () => localStorage.getItem('shunei_repeat') !== 'off'
+  )
   const [deckSize, setDeckSize] = useState(
     () => Number(localStorage.getItem('shunei_decksize')) || 7
   )
@@ -44,6 +47,12 @@ export default function SettingsScreen({ onBack, onManage }) {
     const next = !autoSpeak
     setAutoSpeak(next)
     localStorage.setItem('shunei_autospeak', next ? 'on' : 'off')
+  }
+
+  function toggleRepeatStep() {
+    const next = !repeatStep
+    setRepeatStep(next)
+    localStorage.setItem('shunei_repeat', next ? 'on' : 'off')
   }
 
   function changeRate(rate) {
@@ -227,6 +236,22 @@ export default function SettingsScreen({ onBack, onManage }) {
             aria-checked={autoSpeak}
             className={`toggle ${autoSpeak ? 'on' : ''}`}
             onClick={toggleAutoSpeak}
+          >
+            <span className="toggle-knob" />
+          </button>
+        </div>
+
+        <div className="setting-row">
+          <div className="setting-label">
+            <span className="setting-title">リピート音読ステップ</span>
+            <span className="setting-desc">答え表示後に「声に出して3回」を促します</span>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={repeatStep}
+            className={`toggle ${repeatStep ? 'on' : ''}`}
+            onClick={toggleRepeatStep}
           >
             <span className="toggle-knob" />
           </button>

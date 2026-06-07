@@ -17,6 +17,9 @@ function getAutoSpeak() {
 function getTTSRate() {
   return Number(localStorage.getItem('shunei_ttsrate')) || 0.9
 }
+function getRepeatEnabled() {
+  return localStorage.getItem('shunei_repeat') !== 'off'
+}
 
 function vibrate(ms) {
   try { navigator.vibrate?.(ms) } catch { /* noop */ }
@@ -26,6 +29,7 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
   const [revealed, setRevealed] = useState(false)
   const [dragX, setDragX] = useState(0)
   const [exiting, setExiting] = useState(null)
+  const [repeatCount, setRepeatCount] = useState(0)
   const startXRef = useRef(null)
   const firedRef = useRef(false)
   const { speak } = useTTS()
@@ -35,6 +39,7 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
     setRevealed(false)
     setDragX(0)
     setExiting(null)
+    setRepeatCount(0)
     firedRef.current = false
     reset()
   }, [sentence?.id])
@@ -56,6 +61,11 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
 
   function replay() {
     if (sentence) speak(sentence.en, 'en-US', getTTSRate())
+  }
+
+  function doRepeat() {
+    replay()
+    setRepeatCount((c) => Math.min(c + 1, 3))
   }
 
   // Keyboard shortcuts (desktop)
@@ -205,14 +215,37 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
             <div className="divider" />
             {isSpeedBonus && <span className="speed-badge">⚡ 速い！</span>}
             <p className="en-text">{sentence.en}</p>
-            <button
-              className="btn-speak"
-              onClick={(e) => { e.stopPropagation(); replay() }}
-              aria-label="音声をもう一度再生"
-              title={IS_DESKTOP ? 'もう一度再生 (R)' : 'もう一度再生'}
-            >
-              🔊
-            </button>
+            {getRepeatEnabled() ? (
+              <div
+                className={`repeat-row ${repeatCount >= 3 ? 'done' : ''}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <span className="repeat-label">
+                  {repeatCount >= 3 ? '✓ リピート完了！' : '声に出して3回リピート'}
+                </span>
+                <div className="repeat-dots">
+                  {[0, 1, 2].map((i) => (
+                    <span key={i} className={`repeat-dot ${i < repeatCount ? 'on' : ''}`} />
+                  ))}
+                </div>
+                <button
+                  className="btn-repeat"
+                  onClick={(e) => { e.stopPropagation(); doRepeat() }}
+                  aria-label="リピート再生"
+                >
+                  🔊 リピート
+                </button>
+              </div>
+            ) : (
+              <button
+                className="btn-speak"
+                onClick={(e) => { e.stopPropagation(); replay() }}
+                aria-label="音声をもう一度再生"
+                title={IS_DESKTOP ? 'もう一度再生 (R)' : 'もう一度再生'}
+              >
+                🔊
+              </button>
+            )}
           </div>
         )}
       </div>

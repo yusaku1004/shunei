@@ -2,9 +2,8 @@ import { useState, useMemo } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/index'
 import { isDue, STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
-import { progressByKey } from '../engines/progress'
 import { useStreak } from '../hooks/useStreak'
-import { getStudyLevels, setStudyLevels, ALL_LEVELS } from '../studyPrefs'
+import { getStudyTag, setStudyTag } from '../studyPrefs'
 
 const BOX_COLORS = ['#e2e8f0', '#c4b5fd', '#818cf8', '#6c63ff', '#f59e0b', '#22c55e']
 
@@ -56,35 +55,20 @@ function BoxDistBar({ sentences }) {
 export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, onOpenStats }) {
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
   const { streak } = useStreak()
-  const [levels, setLevels] = useState(getStudyLevels)
+  const [tag, setTag] = useState(getStudyTag)
 
   const deckSize    = Number(localStorage.getItem('shunei_decksize')) || 7
   const total       = sentences?.length ?? 0
-  // 出題レベルで絞った「いま学習対象」の文
-  const inScope     = sentences?.filter(s => levels.includes(s.level)) ?? []
+  // 文法で絞った「いま学習対象」の文
+  const inScope     = sentences?.filter(s => !tag || s.tag === tag) ?? []
   const dueCount    = inScope.filter(isDue).length
-  const studiedCount = sentences?.filter(s => (s.reps || 0) > 0).length ?? 0
+  const tags        = useMemo(() => [...new Set((sentences ?? []).map(s => s.tag))].sort(), [sentences])
   const masteredCount = sentences?.filter(s => s.box === 5).length ?? 0
-  const allLevels   = levels.length === ALL_LEVELS.length
-  const overallPct  = total ? Math.round((masteredCount / total) * 100) : 0
-  const levelPct    = useMemo(() => progressByKey(sentences ?? [], s => s.level), [sentences])
 
-  function toggleLevel(n) {
-    let next
-    if (allLevels) {
-      next = [n] // 「すべて」の状態から特定レベルを押したら、そのレベルだけに絞る
-    } else if (levels.includes(n)) {
-      next = levels.filter(x => x !== n)
-      if (next.length === 0) next = [...ALL_LEVELS] // 最後の1つを外したら「すべて」に戻す
-    } else {
-      next = [...levels, n].sort()
-    }
-    setLevels(next)
-    setStudyLevels(next)
-  }
-  function selectAllLevels() {
-    setLevels([...ALL_LEVELS])
-    setStudyLevels([...ALL_LEVELS])
+  function selectTag(t) {
+    const next = t && tag === t ? null : t // 同じタグを再タップで解除
+    setTag(next)
+    setStudyTag(next)
   }
 
   const greeting = (() => {
@@ -127,24 +111,19 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
 
       <BoxDistBar sentences={sentences} />
 
-      <div className="level-filter">
-        <span className="level-filter-label">出題レベル</span>
-        <div className="level-chips">
-          <button
-            className={`level-chip ${allLevels ? 'active' : ''}`}
-            onClick={selectAllLevels}
-          >
-            <span className="level-chip-name">すべて</span>
-            <span className="level-chip-pct">{overallPct}%</span>
+      <div className="grammar-filter">
+        <span className="level-filter-label">文法</span>
+        <div className="grammar-chips">
+          <button className={`gchip ${!tag ? 'active' : ''}`} onClick={() => selectTag(null)}>
+            すべて
           </button>
-          {ALL_LEVELS.map((n) => (
+          {tags.map((t) => (
             <button
-              key={n}
-              className={`level-chip ${!allLevels && levels.includes(n) ? 'active' : ''}`}
-              onClick={() => toggleLevel(n)}
+              key={t}
+              className={`gchip ${tag === t ? 'active' : ''}`}
+              onClick={() => selectTag(t)}
             >
-              <span className="level-chip-name">Lv{n}</span>
-              <span className="level-chip-pct">{(levelPct.get(n)?.pct ?? 0)}%</span>
+              {t}
             </button>
           ))}
         </div>

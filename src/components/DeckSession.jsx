@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { db, bumpDailyCount } from '../db/index'
 import { gradeCard } from '../engines/leitner'
 import { buildDeck, isDeckComplete } from '../engines/deckCycle'
-import { getStudyLevels } from '../studyPrefs'
+import { getStudyTag } from '../studyPrefs'
 import { useStreak } from '../hooks/useStreak'
 import FlashCard from './FlashCard'
 import DeckProgress from './DeckProgress'
@@ -30,8 +30,8 @@ export default function DeckSession({ onHome }) {
   async function initDeck() {
     setLoading(true)
     const all = await db.sentences.toArray()
-    const levels = getStudyLevels()
-    const pool = all.filter((s) => levels.includes(s.level))
+    const tag = getStudyTag()
+    const pool = tag ? all.filter((s) => s.tag === tag) : all
     const size = Number(localStorage.getItem('shunei_decksize')) || 7
     const d = buildDeck(pool, size)
     setDeck(d)
