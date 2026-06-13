@@ -367,9 +367,20 @@ input, select { font: inherit; color: inherit; }
   transition: transform 0.12s, box-shadow 0.12s;
   min-height: 84px;
   border: 1.5px solid transparent;
+  position: relative;
 }
+.mode-card.readaloud { border-color: #fde6b8; }
 .mode-card.deck { border-color: #d4d0ff; }
 .mode-card.srs  { border-color: #bbf7d0; }
+.mode-stage {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  opacity: 0.55;
+}
 .mode-card:active {
   transform: scale(0.975);
   box-shadow: var(--shadow-md);
@@ -384,6 +395,7 @@ input, select { font: inherit; color: inherit; }
   justify-content: center;
 }
 .mode-icon svg { width: 26px; height: 26px; }
+.mode-card.readaloud .mode-icon { background: #fff3da; color: #e08a00; }
 .mode-card.deck .mode-icon { background: var(--accent-pale); color: var(--accent); }
 .mode-card.srs  .mode-icon { background: var(--good-pale);   color: var(--good); }
 .mode-info { flex: 1; }
@@ -1149,3 +1161,41 @@ input, select { font: inherit; color: inherit; }
   font-weight: 600;
   justify-content: flex-end;
 }
+
+/* ============================
+   音読モード (Read-aloud)
+   ============================ */
+.ra-count { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; }
+.ra-progress {
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 4px;
+  margin: 4px 16px 0;
+  overflow: hidden;
+}
+.ra-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.ra-card .en-text { color: var(--accent); }
+.btn-next {
+  width: 100%;
+  margin-top: 18px;
+  padding: 15px;
+  border-radius: var(--radius-sm);
+  background: var(--surface2);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 1rem;
+  border: 1.5px solid var(--border);
+  transition: transform 0.12s, background 0.2s, box-shadow 0.2s;
+}
+.btn-next.ready {
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--shadow-sm);
+}
+.btn-next:active { transform: scale(0.97); }

@@ -52,7 +52,7 @@ function BoxDistBar({ sentences }) {
   )
 }
 
-export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, onOpenStats }) {
+export default function HomeScreen({ onStartReadAloud, onStartDeck, onStartSRS, onOpenSettings, onOpenStats }) {
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
   const { streak } = useStreak()
   const [tag, setTag] = useState(getStudyTag)
@@ -138,7 +138,24 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
       </div>
 
       <div className="mode-cards">
+        <button className="mode-card readaloud" onClick={onStartReadAloud}>
+          <span className="mode-stage">①</span>
+          <div className="mode-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M11 5 6 9H2v6h4l5 4V5z" />
+              <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+              <path d="M19 5a9 9 0 0 1 0 14" />
+            </svg>
+          </div>
+          <div className="mode-info">
+            <h3>音読</h3>
+            <p>日英を見ながら声に出してリピート<br />まず型を刷り込む</p>
+          </div>
+          <div className="mode-arrow">›</div>
+        </button>
+
         <button className="mode-card deck" onClick={onStartDeck}>
+          <span className="mode-stage">②</span>
           <div className="mode-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
@@ -149,12 +166,13 @@ export default function HomeScreen({ onStartDeck, onStartSRS, onOpenSettings, on
           </div>
           <div className="mode-info">
             <h3>デッキ周回</h3>
-            <p>{deckSize}文を全部○になるまでループ<br />型を体に染み込ませる</p>
+            <p>{deckSize}文を全部○になるまでループ<br />瞬間英作文で型を定着</p>
           </div>
           <div className="mode-arrow">›</div>
         </button>
 
         <button className="mode-card srs" onClick={onStartSRS}>
+          <span className="mode-stage">③</span>
           <div className="mode-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <rect x="3" y="4" width="18" height="18" rx="2" />

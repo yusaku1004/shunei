@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a1a2e"/>
+      <stop offset="1" stop-color="#2a2a4e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="80" y="155" width="320" height="320" rx="64" fill="#13132a"/>
+  <text x="240" y="395" text-anchor="middle" font-family="sans-serif" font-size="220" font-weight="bold" fill="#8b85ff">瞬</text>
+  <text x="460" y="290" font-family="sans-serif" font-size="92" font-weight="bold" fill="#ffffff">瞬間英作文</text>
+  <text x="462" y="375" font-family="sans-serif" font-size="44" fill="#b8b4e0">森沢メソッドで「英語を話す瞬発力」を鍛える</text>
+  <text x="462" y="450" font-family="sans-serif" font-size="40" font-weight="bold" fill="#8b85ff">無料・インストール不要の学習アプリ</text>
+</svg>

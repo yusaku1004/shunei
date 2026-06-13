@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { seedIfEmpty } from './db/index'
 import HomeScreen from './components/HomeScreen'
+import ReadAloudSession from './components/ReadAloudSession'
 import DeckSession from './components/DeckSession'
 import SRSSession from './components/SRSSession'
 import SettingsScreen from './components/SettingsScreen'
@@ -14,6 +15,7 @@ export default function App() {
     seedIfEmpty()
   }, [])
 
+  if (screen === 'readaloud') return <ReadAloudSession onHome={() => setScreen('home')} />
   if (screen === 'deck') return <DeckSession onHome={() => setScreen('home')} />
   if (screen === 'srs') return <SRSSession onHome={() => setScreen('home')} />
   if (screen === 'settings') {
@@ -29,6 +31,7 @@ export default function App() {
 
   return (
     <HomeScreen
+      onStartReadAloud={() => setScreen('readaloud')}
       onStartDeck={() => setScreen('deck')}
       onStartSRS={() => setScreen('srs')}
       onOpenSettings={() => setScreen('settings')}
