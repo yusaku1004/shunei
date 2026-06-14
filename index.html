@@ -7,8 +7,8 @@
     <!-- Primary Meta Tags -->
     <title>瞬英 - 瞬間英作文トレーニング | 森沢メソッドで英語の瞬発力を鍛える</title>
     <meta name="title" content="瞬英 - 瞬間英作文トレーニング | 森沢メソッドで英語の瞬発力を鍛える" />
-    <meta name="description" content="瞬英は森沢メソッドに基づく瞬間英作文トレーニングアプリ。日本語を見て即座に英語へ変換する反復練習で、英会話の瞬発力とスピーキング力を鍛えます。無料・インストール不要、スマホでもオフラインで学習できます。" />
-    <meta name="keywords" content="瞬間英作文, 森沢メソッド, 英作文, 英会話, スピーキング, 英語学習, 英語トレーニング, リピーティング, 瞬英" />
+    <meta name="description" content="瞬英は森沢メソッドに基づく瞬間英作文トレーニングアプリ。①音読で型を刷り込み、②瞬間英作文で口に出し、③間隔反復(SRS)で定着させる3ステップで、英会話の瞬発力とスピーキング力を鍛えます。無料・インストール不要、スマホでもオフラインで学習できます。" />
+    <meta name="keywords" content="瞬間英作文, 森沢メソッド, 音読, 英作文, 英会話, スピーキング, 英語学習, 英語トレーニング, リピーティング, 間隔反復, SRS, 瞬英" />
     <meta name="author" content="瞬英" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://shunei.vercel.app/" />
@@ -39,23 +39,97 @@
     <meta name="apple-mobile-web-app-title" content="瞬英" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <!-- Structured Data -->
+    <!-- Structured Data: WebApplication -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "瞬英 - 瞬間英作文トレーニング",
       "url": "https://shunei.vercel.app/",
-      "description": "森沢メソッドに基づく瞬間英作文トレーニングアプリ。日本語を見て即座に英語へ変換する反復練習で、英会話の瞬発力とスピーキング力を鍛えます。",
+      "description": "森沢メソッドに基づく瞬間英作文トレーニングアプリ。音読・瞬間英作文・間隔反復(SRS)の3ステップで、英会話の瞬発力とスピーキング力を鍛えます。",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "Web, iOS, Android",
       "inLanguage": "ja",
       "isAccessibleForFree": true,
+      "featureList": [
+        "音読モード（日英を見ながら声に出して型を刷り込む）",
+        "瞬間英作文デッキ周回（全文を正解するまでループ）",
+        "間隔反復SRS（Leitnerシステムで効率的に復習）",
+        "文法項目ごとの絞り込み学習",
+        "音声読み上げ(TTS)とリピート練習",
+        "オフライン対応のPWA・学習記録/連続日数"
+      ],
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "JPY"
       }
+    }
+    </script>
+
+    <!-- Structured Data: FAQ (rich results) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "森沢メソッドとは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "森沢メソッドは森沢洋介氏が提唱した瞬間英作文の学習法です。中学レベルの簡単な日本語文を見て、瞬時に英語へ口頭で変換する反復トレーニングを通じて、英語を話す瞬発力（スピーキング力）を鍛えます。読めば分かるけれど、とっさに口から出てこない状態を解消するのが狙いです。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "瞬英はどのように学習しますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "①音読（日英を見ながら声に出して型を刷り込む）→②デッキ周回（日本語を見て瞬間英作文し、全文を正解するまでループ）→③SRS復習（間隔反復で長期記憶に定着）という3つのステップで、森沢メソッドに沿って学習を進められます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "瞬英は無料で使えますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい、瞬英は完全無料・インストール不要で利用できます。PWA対応のため、ホーム画面に追加すればアプリのように起動でき、オフラインでも学習できます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "瞬間英作文にはどんな効果がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "瞬間英作文を繰り返すと、頭の中で訳を考えなくても英文が反射的に口から出るようになり、英会話の瞬発力が高まります。中学レベルの文型が体に染み込むことで、スピーキングやライティングの土台となる基礎力が身につきます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "1日どれくらい学習すればいいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "1日5〜10分でも毎日続けることが大切です。瞬英は1セット数文の短いデッキ周回で区切れるので、すきま時間に少しずつ取り組めます。連続学習日数(ストリーク)が記録されるため、習慣化のモチベーションにもつながります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "英語初心者でも瞬間英作文はできますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい、初心者でも始められます。瞬英はbe動詞や一般動詞など中学レベルの簡単な文型から段階的に練習でき、まず音読で型を刷り込んでから瞬間英作文に進む構成なので、英語が苦手な方でも無理なく取り組めます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "SRS（間隔反復）とは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SRS（Spaced Repetition System／間隔反復）は、忘れかけたタイミングで復習することで効率よく長期記憶に定着させる学習法です。瞬英はLeitnerシステムを採用し、正解した文ほど復習間隔を長く、間違えた文ほど短くして出題します。"
+          }
+        }
+      ]
     }
     </script>
   </head>
@@ -67,6 +141,12 @@
         瞬英は森沢メソッドに基づく瞬間英作文トレーニングアプリです。日本語の例文を見て即座に英語へ変換する反復練習を通じて、
         英会話の瞬発力とスピーキング力を鍛えます。無料・インストール不要で、スマートフォンでもオフライン学習が可能です。
       </p>
+      <h2>森沢メソッドに沿った3ステップ学習</h2>
+      <ul>
+        <li>① 音読：日本語と英語を見ながら声に出してリピートし、英文の型を体に刷り込みます。</li>
+        <li>② デッキ周回：日本語を見て瞬間英作文し、全文を正解するまでループして型を定着させます。</li>
+        <li>③ SRS復習：間隔反復（Leitnerシステム）で効率よく長期記憶に定着させます。</li>
+      </ul>
       <p>ご利用にはJavaScriptを有効にしてください。</p>
     </noscript>
     <script type="module" src="/src/main.jsx"></script>
