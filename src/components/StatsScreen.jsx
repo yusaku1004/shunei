@@ -30,7 +30,7 @@ function ProgressBar({ p }) {
   )
 }
 
-export default function StatsScreen({ onBack }) {
+export default function StatsScreen({ onBack, onOpenMastered }) {
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
   const { streak } = useStreak()
   const [counts, setCounts] = useState({})
@@ -46,7 +46,6 @@ export default function StatsScreen({ onBack }) {
   }, [sentences])
 
   const total = sentences?.length ?? 0
-  const studied = sentences?.filter((s) => (s.reps || 0) > 0).length ?? 0
   const mastered = sentences?.filter((s) => s.box === 5).length ?? 0
   const totalReps = sentences?.reduce((a, s) => a + (s.reps || 0), 0) ?? 0
 
@@ -113,14 +112,14 @@ export default function StatsScreen({ onBack }) {
             <span className="stat-tile-num">{todayTotal}</span>
             <span className="stat-tile-label">今日の学習</span>
           </div>
-          <div className="stat-tile">
-            <span className="stat-tile-num">{studied}/{total}</span>
-            <span className="stat-tile-label">学習済み</span>
-          </div>
-          <div className="stat-tile">
+          <button
+            className="stat-tile clickable"
+            onClick={onOpenMastered}
+            aria-label="習得済みの英文を見る"
+          >
             <span className="stat-tile-num">{mastered}</span>
-            <span className="stat-tile-label">習得済み</span>
-          </div>
+            <span className="stat-tile-label">習得済み <span className="stat-tile-chev">›</span></span>
+          </button>
           <div className="stat-tile">
             <span className="stat-tile-num">{totalReps}</span>
             <span className="stat-tile-label">累計採点</span>

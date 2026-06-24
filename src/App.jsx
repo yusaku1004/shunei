@@ -7,6 +7,7 @@ import SRSSession from './components/SRSSession'
 import SettingsScreen from './components/SettingsScreen'
 import SentenceManager from './components/SentenceManager'
 import StatsScreen from './components/StatsScreen'
+import MasteredScreen from './components/MasteredScreen'
 
 export default function App() {
   const [screen, setScreen] = useState('home')
@@ -27,7 +28,15 @@ export default function App() {
     )
   }
   if (screen === 'manage') return <SentenceManager onBack={() => setScreen('settings')} />
-  if (screen === 'stats') return <StatsScreen onBack={() => setScreen('home')} />
+  if (screen === 'stats') {
+    return (
+      <StatsScreen
+        onBack={() => setScreen('home')}
+        onOpenMastered={() => setScreen('mastered')}
+      />
+    )
+  }
+  if (screen === 'mastered') return <MasteredScreen onBack={() => setScreen('stats')} />
 
   return (
     <HomeScreen
