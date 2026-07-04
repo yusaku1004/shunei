@@ -174,7 +174,6 @@ export const SAMPLE_SENTENCES = [
   // 関係代名詞
   // =====================
   { jp: 'これは私が昨日買った本です。', en: 'This is the book that I bought yesterday.', tag: '関係代名詞', level: 3 },
-  { jp: '彼は私が尊敬する人です。', en: 'He is a person whom I respect.', tag: '関係代名詞', level: 3 },
   { jp: '私には東京に住んでいる友人がいます。', en: 'I have a friend who lives in Tokyo.', tag: '関係代名詞', level: 2 },
   { jp: 'これが彼が話していた問題です。', en: 'This is the problem that he was talking about.', tag: '関係代名詞', level: 3 },
   { jp: '彼女が作った料理はとてもおいしかったです。', en: 'The food that she made was really good.', tag: '関係代名詞', level: 2 },
@@ -304,7 +303,6 @@ export const SAMPLE_SENTENCES = [
   { jp: '彼女が歌っている姿を見ました。', en: 'I saw her singing.', tag: '分詞', level: 3 },
   { jp: '駅の前に停まっているタクシーに乗りました。', en: 'I got into the taxi parked in front of the station.', tag: '分詞', level: 3 },
   { jp: '音楽を聴きながら、走りました。', en: 'I ran while listening to music.', tag: '分詞', level: 3 },
-  { jp: '宿題を終えてから、テレビを見ました。', en: 'Having finished my homework, I watched TV.', tag: '分詞', level: 4 },
   { jp: '彼女は微笑みながら部屋に入ってきました。', en: 'She came into the room smiling.', tag: '分詞', level: 3 },
 
   // =====================
@@ -412,4 +410,186 @@ export const SAMPLE_SENTENCES = [
 
   // IT
   { jp: 'パソコンが動きません。', en: 'My computer is not working.', tag: 'IT', level: 1 },
+
+  // =====================
+  // 会話フレーズ（口語の定型表現）
+  // =====================
+  { jp: 'どう思うか教えてください。', en: 'Let me know what you think.', tag: '会話フレーズ', level: 2 },
+  { jp: '来てくれてありがとう。', en: 'Thanks for coming.', tag: '会話フレーズ', level: 1 },
+  { jp: '遅れないでね。', en: "Don't be late.", tag: '会話フレーズ', level: 1 },
+  { jp: 'それはいい考えですね。', en: 'That sounds like a good idea.', tag: '会話フレーズ', level: 1 },
+  { jp: '予約をしたいのですが。', en: "I'd like to make a reservation.", tag: '会話フレーズ', level: 2 },
+  { jp: 'ごめん、つまり自分でそれをやりたいってこと。', en: 'Sorry, I mean I want to do that by myself.', tag: '会話フレーズ', level: 3 },
+  { jp: 'またね。', en: 'See you around.', tag: '会話フレーズ', level: 1 },
+  { jp: 'この電話は壊れているようです。', en: 'It seems like this phone is broken.', tag: '会話フレーズ', level: 2 },
+  { jp: '良い一日を。', en: 'Have a nice day.', tag: '会話フレーズ', level: 1 },
+  { jp: 'もう寝る時間だよ。', en: "It's time to go to bed.", tag: '会話フレーズ', level: 1 },
+  { jp: '彼の母として、ただありがとうと言いたいです。', en: 'As his mother, I just want to say thank you.', tag: '会話フレーズ', level: 3 },
+  { jp: '家を出る前に必ずドアの鍵をかけてください。', en: 'Make sure to lock the door before you leave the house.', tag: '会話フレーズ', level: 2 },
+  { jp: '新しい仕事に就いたそうですね。', en: 'I hear that you got a new job.', tag: '会話フレーズ', level: 2 },
+  { jp: 'まさにそれを探していたんです。', en: 'That\'s exactly what I was looking for.', tag: '会話フレーズ', level: 2 },
+  { jp: '天気予報によると、今日は良くなるそうです。', en: 'According to the weather forecast, it will improve today.', tag: '会話フレーズ', level: 3 },
+  { jp: '財布を持ってくるのを忘れたってこと？', en: 'You mean you forgot to bring your wallet?', tag: '会話フレーズ', level: 2 },
+  { jp: '今夜7時に会うんですよね？', en: "We're meeting at 7:00 p.m. tonight, right?", tag: '会話フレーズ', level: 2 },
+  { jp: '気をつけてって言ったでしょ。', en: 'I told you to be careful.', tag: '会話フレーズ', level: 2 },
+  { jp: '私の知る限り、そのお店は日曜日は休みです。', en: 'As far as I know, the store is closed on Sundays.', tag: '会話フレーズ', level: 3 },
+  { jp: '私に正直でいてほしいです。', en: 'I want you to be honest with me.', tag: '会話フレーズ', level: 2 },
+  { jp: '昇進おめでとうございます。', en: 'Congratulations on your promotion.', tag: '会話フレーズ', level: 2 },
+  { jp: '週末をすごく楽しみにしてるって知ってるでしょ。', en: "You know I'm really looking forward to the weekend.", tag: '会話フレーズ', level: 3 },
+  { jp: 'それは天気次第です。', en: 'It depends on the weather.', tag: '会話フレーズ', level: 1 },
+  { jp: '妹とはいつも仲がいいわけではありません。', en: "My sister and I don't always get along.", tag: '会話フレーズ', level: 3 },
+  { jp: '今ジムに向かっているところです。', en: "I'm on my way to the gym.", tag: '会話フレーズ', level: 2 },
+  { jp: '眠そうですね。', en: 'You look sleepy.', tag: '会話フレーズ', level: 1 },
+  { jp: '私の意見では、彼がその仕事に最適な候補者です。', en: "In my opinion, he's the best candidate for the job.", tag: '会話フレーズ', level: 3 },
+  { jp: 'なるほど、納得です。', en: 'That makes sense.', tag: '会話フレーズ', level: 1 },
+  { jp: 'コーヒーをこぼさないように気をつけて。', en: 'Be careful not to spill your coffee.', tag: '会話フレーズ', level: 2 },
+  { jp: '夕食にご一緒したいのですが、今夜はすでに予定があります。', en: "I'd love to join you for dinner, but I already have plans tonight.", tag: '会話フレーズ', level: 3 },
+
+  // =====================
+  // 質問表現
+  // =====================
+  { jp: '映画は何時に始まりますか？', en: 'What time does the movie start?', tag: '質問表現', level: 1 },
+  { jp: '今のところ、新しい仕事はどうですか？', en: 'How do you like your new job so far?', tag: '質問表現', level: 3 },
+  { jp: 'コーヒーでも飲みに行きませんか？', en: 'Do you want to grab a cup of coffee?', tag: '質問表現', level: 2 },
+  { jp: '兄弟はいますか？', en: 'Do you have any siblings?', tag: '質問表現', level: 1 },
+  { jp: '日本に住むのはどんな感じですか？', en: 'What is it like living in Japan?', tag: '質問表現', level: 3 },
+  { jp: 'どうやってここに来たんですか？', en: 'How did you get here?', tag: '質問表現', level: 2 },
+  { jp: 'どうしてまた遅れたの？', en: "How come you're late again?", tag: '質問表現', level: 2 },
+  { jp: '私の新しい髪型についてどう思いますか？', en: 'What do you think of my new haircut?', tag: '質問表現', level: 2 },
+  { jp: 'そこへの行き方を知っていますか？', en: 'Do you know how to get there?', tag: '質問表現', level: 2 },
+  { jp: '今日はどんな一日でしたか？', en: 'How was your day?', tag: '質問表現', level: 1 },
+  { jp: 'あなたはどうですか？', en: 'How about you?', tag: '質問表現', level: 1 },
+  { jp: '兄弟は何人いますか？', en: 'How many siblings do you have?', tag: '質問表現', level: 1 },
+  { jp: 'いつまた会えますか？', en: 'When can I see you again?', tag: '質問表現', level: 2 },
+  { jp: 'そこへはどうやって行けますか？', en: 'How can I get there?', tag: '質問表現', level: 2 },
+  { jp: '彼は疲れているように見えませんか？', en: "Don't you think he looks tired?", tag: '質問表現', level: 3 },
+  { jp: '休憩したらどうですか？', en: "Why don't you take a break?", tag: '質問表現', level: 2 },
+
+  // =====================
+  // 丁寧表現
+  // =====================
+  { jp: '質問してもいいですか？', en: 'Can I ask you a question?', tag: '丁寧表現', level: 1 },
+  { jp: '塩を取ってもらえますか？', en: 'Can you pass me the salt, please?', tag: '丁寧表現', level: 1 },
+  { jp: 'ここでタバコを吸ってもいいですか？', en: 'Is it okay if I smoke here?', tag: '丁寧表現', level: 2 },
+  { jp: '何か飲み物はいかがですか？', en: 'Would you like something to drink?', tag: '丁寧表現', level: 1 },
+  { jp: '個人的な質問をしても構いませんか？', en: 'Would you mind if I asked you a personal question?', tag: '丁寧表現', level: 4 },
+  { jp: 'お忙しいところすみませんが、少しお話しする時間はありますか？', en: 'Sorry to bother you, but do you have a moment to talk?', tag: '丁寧表現', level: 3 },
+  { jp: 'ペンをお借りしてもよろしいですか？', en: 'May I borrow your pen, please?', tag: '丁寧表現', level: 2 },
+  { jp: 'すみません、これは私の席だと思うのですが。', en: 'Excuse me, but I think this is my seat.', tag: '丁寧表現', level: 2 },
+
+  // =====================
+  // used to（過去の習慣 / 慣れている）
+  // =====================
+  { jp: '以前は毎朝走っていました。', en: 'I used to run every morning.', tag: 'used to', level: 2 },
+  { jp: '昔はよく飲みに出かけていました。', en: 'I used to go out drinking a lot.', tag: 'used to', level: 2 },
+  { jp: '一人暮らしに慣れています。', en: "I'm used to living alone.", tag: 'used to', level: 2 },
+  { jp: 'バスに乗ることに慣れています。', en: "I'm used to taking the bus.", tag: 'used to', level: 2 },
+
+  // =====================
+  // 比較（追加）
+  // =====================
+  { jp: '私はサッカーの方が野球より好きです。', en: 'I prefer soccer to baseball.', tag: '比較', level: 2 },
+  { jp: '家で食べる方がいいです。', en: "I'd rather eat at home.", tag: '比較', level: 2 },
+
+  // =====================
+  // 過去形（追加）
+  // =====================
+  { jp: '誕生日に新しいスマホをもらいました。', en: 'I got a new phone for my birthday.', tag: '過去形', level: 2 },
+  { jp: 'あなたと話せて楽しかったです。', en: 'I enjoyed talking with you.', tag: '過去形', level: 2 },
+  { jp: '電車に間に合いました。', en: 'I made it to the train.', tag: '過去形', level: 2 },
+  { jp: '傷つけるつもりはなかったんです。', en: "I didn't mean to hurt you.", tag: '過去形', level: 2 },
+
+  // =====================
+  // be動詞（追加）
+  // =====================
+  { jp: '私の家族は4人です。', en: 'There are four people in my family.', tag: 'be動詞', level: 1 },
+
+  // =====================
+  // 感情（追加）
+  // =====================
+  { jp: '喜んでお手伝いします。', en: "I'm happy to help you.", tag: '感情', level: 2 },
+  { jp: '残念ながらできません。', en: "I'm afraid I can't.", tag: '感情', level: 2 },
+  { jp: 'きっと試験に合格しますよ。', en: "I'm sure you will pass the exam.", tag: '感情', level: 2 },
+  { jp: 'わかってるけど、あなたの意見には賛成できません。', en: "I know, but I don't agree with your opinion.", tag: '感情', level: 3 },
+  { jp: '最近、写真にハマっています。', en: "I'm really into photography lately.", tag: '感情', level: 2 },
+
+  // =====================
+  // 未来形（追加）
+  // =====================
+  { jp: 'タバコをやめるつもりです。', en: "I'm going to stop smoking.", tag: '未来形', level: 2 },
+  { jp: '仕事の後に食料品の買い物に行く予定です。', en: "I'm planning to go grocery shopping after work.", tag: '未来形', level: 2 },
+
+  // =====================
+  // 間接疑問文（追加）
+  // =====================
+  { jp: 'なんで彼はこんなに遅いのかなあ。', en: 'I wonder why he is so late.', tag: '間接疑問文', level: 2 },
+  { jp: 'あなたの言っていることがよくわかりません。', en: "I'm not sure what you mean.", tag: '間接疑問文', level: 2 },
+
+  // =====================
+  // 現在進行形（追加）
+  // =====================
+  { jp: 'お金を貯めようとしています。', en: "I'm trying to save money.", tag: '現在進行形', level: 2 },
+
+  // =====================
+  // 動名詞（追加）
+  // =====================
+  { jp: '少し昼寝したい気分です。', en: 'I feel like taking a nap.', tag: '動名詞', level: 2 },
+  { jp: '料理が得意です。', en: "I'm good at cooking.", tag: '動名詞', level: 1 },
+  { jp: '会えるのを楽しみにしています。', en: "I'm looking forward to seeing you.", tag: '動名詞', level: 2 },
+
+  // =====================
+  // 助動詞（追加）
+  // =====================
+  { jp: '疲れたでしょう。', en: 'You must be tired.', tag: '助動詞', level: 2 },
+  { jp: '謝らなくていいですよ。', en: "You don't have to apologize.", tag: '助動詞', level: 2 },
+  { jp: '傘を持って行った方がいいですよ。', en: "You'd better bring an umbrella.", tag: '助動詞', level: 2 },
+  { jp: '残った方がいいですか？', en: 'Should I stay?', tag: '助動詞', level: 1 },
+  { jp: 'この用紙に記入しなければなりませんか？', en: 'Do I have to fill out the form?', tag: '助動詞', level: 2 },
+  { jp: 'あなたの助言を聞いておくべきでした。', en: 'I should have listened to your advice.', tag: '助動詞', level: 3 },
+  { jp: '鍵を家に置き忘れたかもしれません。', en: 'I might have left my keys at home.', tag: '助動詞', level: 3 },
+
+  // =====================
+  // 接続詞（追加）
+  // =====================
+  { jp: '何か助けが必要なら、教えてください。', en: 'If you need any help, just let me know.', tag: '接続詞', level: 2 },
+  { jp: '何が起きても、あなたは大丈夫です。', en: "Whatever happens, you'll be okay.", tag: '接続詞', level: 3 },
+  { jp: 'どんなに辛くても、私は諦めません。', en: "No matter how hard it gets, I won't give up.", tag: '接続詞', level: 3 },
+  { jp: 'だから遅れたんです。', en: "That's why I was late.", tag: '接続詞', level: 1 },
+  { jp: '少し遅れても構いません。', en: "It doesn't matter if we are a little late.", tag: '接続詞', level: 2 },
+
+  // =====================
+  // 現在完了（追加）
+  // =====================
+  { jp: '海外に行ったことはありますか？', en: 'Have you ever been abroad?', tag: '現在完了', level: 2 },
+  { jp: '日本に一度行ったことがあって、本当に大好きでした。', en: 'I\'ve been to Japan once and I absolutely loved it.', tag: '現在完了', level: 3 },
+
+  // =====================
+  // 不定詞（追加）
+  // =====================
+  { jp: 'ちょうど電話しようとしていたところです。', en: 'I was just about to call you.', tag: '不定詞', level: 2 },
+
+  // =====================
+  // 健康（追加）
+  // =====================
+  { jp: '早く良くなりますように。', en: 'I hope you get well soon.', tag: '健康', level: 1 },
+  { jp: '今日はちょっと疲れています。', en: "I'm kind of tired today.", tag: '健康', level: 2 },
+
+  // =====================
+  // レストラン（追加）
+  // =====================
+  { jp: '注文する準備ができています。', en: "I'm ready to order.", tag: 'レストラン', level: 1 },
+  { jp: 'ご注文はお決まりですか？', en: 'Are you ready to order?', tag: 'レストラン', level: 1 },
+
+  // =====================
+  // 旅行（追加）
+  // =====================
+  { jp: '一番近いATMはどこにありますか？', en: 'Where can I find the nearest ATM?', tag: '旅行', level: 2 },
+
+  // =====================
+  // ビジネス（追加）
+  // =====================
+  { jp: '遅れてしまい申し訳ありません。', en: 'I apologize for the delay.', tag: 'ビジネス', level: 2 },
+  { jp: 'お会いできて光栄です。', en: "It's a pleasure to meet you.", tag: 'ビジネス', level: 2 },
+  { jp: 'この数字をもう一度確認していただけますか？', en: 'Could you double check these figures for me?', tag: 'ビジネス', level: 3 },
+  { jp: 'ご理解いただきありがとうございます。', en: 'I appreciate your understanding.', tag: 'ビジネス', level: 2 },
 ]
