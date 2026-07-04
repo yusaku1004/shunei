@@ -5,6 +5,7 @@ import { STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
 
 const SPEED_THRESHOLD = 8
 const SWIPE_THRESHOLD = 72
+const TAP_MAX_MOVE = 8 // これ未満の移動は「スワイプの途中」ではなく「タップ」とみなす
 
 // デスクトップ（マウス/キーボード操作）かどうかを一度だけ判定
 const IS_DESKTOP =
@@ -32,7 +33,7 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
   const [repeatCount, setRepeatCount] = useState(0)
   const startXRef = useRef(null)
   const firedRef = useRef(false)
-  const { speak } = useTTS()
+  const { speak, stop } = useTTS()
   const { elapsed, reset } = useTimer(!revealed)
 
   useEffect(() => {
@@ -48,6 +49,13 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
     if (revealed || exiting) return
     setRevealed(true)
     if (getAutoSpeak() && sentence) speak(sentence.en, 'en-US', getTTSRate())
+  }
+
+  function hide() {
+    if (!revealed || exiting) return
+    stop()
+    setDragX(0)
+    setRevealed(false)
   }
 
   function fireScore(score) {
@@ -87,7 +95,9 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
         case '2': case 'ArrowUp':    e.preventDefault(); fireScore('hard');  break
         case '3': case 'ArrowRight': e.preventDefault(); fireScore('good');  break
         case 'r': case 'R':          e.preventDefault(); replay();           break
-        default: break
+        default:
+          if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); hide() }
+          break
       }
     }
     window.addEventListener('keydown', onKey)
@@ -98,7 +108,7 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
 
   // Touch swipe handlers
   function onTouchStart(e) {
-    if (!revealed) return
+    if (!revealed || e.target.closest('button')) return
     startXRef.current = e.touches[0].clientX
   }
   function onTouchMove(e) {
@@ -109,6 +119,8 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
     if (!revealed || startXRef.current === null) return
     if (Math.abs(dragX) >= SWIPE_THRESHOLD) {
       fireScore(dragX > 0 ? 'good' : 'again')
+    } else if (Math.abs(dragX) < TAP_MAX_MOVE) {
+      hide() // ほぼ動かずにタップ→リリース：答えを隠す
     } else {
       setDragX(0)
     }
@@ -128,6 +140,8 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
     if (!revealed || startXRef.current === null) return
     if (Math.abs(dragX) >= SWIPE_THRESHOLD) {
       fireScore(dragX > 0 ? 'good' : 'again')
+    } else if (Math.abs(dragX) < TAP_MAX_MOVE) {
+      hide() // ほぼ動かずにクリック：答えを隠す
     } else {
       setDragX(0)
     }
@@ -254,7 +268,9 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
       {revealed && (
         <>
           <p className="swipe-tip">
-            {IS_DESKTOP ? '← NG / OK → ・ 1 2 3 キーでも採点' : '← スワイプで NG / OK →'}
+            {IS_DESKTOP
+              ? '← NG / OK → ・ 1 2 3 キーでも採点 ・ タップ / Space で隠す'
+              : '← スワイプで NG / OK → ・ タップで隠す'}
           </p>
           <div className="score-buttons">
             <button className="score-btn again" onClick={() => fireScore('again')}>
