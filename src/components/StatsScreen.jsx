@@ -4,7 +4,7 @@ import { db, getDailyCounts, dateKey } from '../db/index'
 import { useStreak } from '../hooks/useStreak'
 import { STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
 import { progressByKey } from '../engines/progress'
-import { ALL_LEVELS } from '../studyPrefs'
+import { ALL_LEVELS, setStudyTag } from '../studyPrefs'
 
 const BOX_COLORS = ['#e2e8f0', '#c4b5fd', '#818cf8', '#6c63ff', '#f59e0b', '#22c55e']
 const HEAT_WEEKS = 14
@@ -30,7 +30,12 @@ function ProgressBar({ p }) {
   )
 }
 
-export default function StatsScreen({ onBack, onOpenMastered }) {
+export default function StatsScreen({ onBack, onOpenMastered, onPractice }) {
+  // 文法タグを学習対象に設定してデッキ周回を開始
+  function practiceTag(tag) {
+    setStudyTag(tag)
+    onPractice()
+  }
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
   const { streak } = useStreak()
   const [counts, setCounts] = useState({})
@@ -221,6 +226,9 @@ export default function StatsScreen({ onBack, onOpenMastered }) {
                 </span>
               </div>
               <ProgressBar p={p} />
+              <button className="tag-practice-btn" onClick={() => practiceTag(tag)}>
+                この文法で練習 →
+              </button>
             </div>
           ))}
         </div>

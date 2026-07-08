@@ -42,3 +42,27 @@ export function isDue(sentence) {
 export function getSRSDue(sentences) {
   return sentences.filter(isDue)
 }
+
+// 今後の復習予定を「今日から何日後か」ごとに集計する（期限到来分は除く）
+// 戻り値: [{ days, count }] を日数の昇順で maxGroups 件まで
+export function getUpcomingDue(sentences, maxGroups = 2) {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const byDay = new Map()
+  for (const s of sentences) {
+    if (!s.reps) continue
+    const due = new Date(s.next_due)
+    due.setHours(0, 0, 0, 0)
+    const days = Math.round((due - today) / 86400000)
+    if (days <= 0) continue
+    byDay.set(days, (byDay.get(days) || 0) + 1)
+  }
+  return [...byDay.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .slice(0, maxGroups)
+    .map(([days, count]) => ({ days, count }))
+}
+
+export function formatDueDays(days) {
+  return days === 1 ? '明日' : `${days}日後`
+}

@@ -29,11 +29,19 @@ export default function SettingsScreen({ onBack, onManage }) {
   const [deckSize, setDeckSize] = useState(
     () => Number(localStorage.getItem('shunei_decksize')) || 7
   )
+  const [dailyGoal, setDailyGoal] = useState(
+    () => Number(localStorage.getItem('shunei_dailygoal')) || 20
+  )
   const { speak } = useTTS()
 
   function changeDeckSize(n) {
     setDeckSize(n)
     localStorage.setItem('shunei_decksize', String(n))
+  }
+
+  function changeDailyGoal(n) {
+    setDailyGoal(n)
+    localStorage.setItem('shunei_dailygoal', String(n))
   }
 
   function changeTheme(pref) {
@@ -218,6 +226,24 @@ export default function SettingsScreen({ onBack, onManage }) {
                 key={n}
                 className={`speed-chip ${deckSize === n ? 'active' : ''}`}
                 onClick={() => changeDeckSize(n)}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="setting-row">
+          <div className="setting-label">
+            <span className="setting-title">1日の目標</span>
+            <span className="setting-desc">ホームの目標リングで使う採点数</span>
+          </div>
+          <div className="speed-chips">
+            {[10, 20, 30, 50].map((n) => (
+              <button
+                key={n}
+                className={`speed-chip ${dailyGoal === n ? 'active' : ''}`}
+                onClick={() => changeDailyGoal(n)}
               >
                 {n}
               </button>

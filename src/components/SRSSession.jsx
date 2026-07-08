@@ -6,7 +6,7 @@ import { useStreak } from '../hooks/useStreak'
 import FlashCard from './FlashCard'
 import SRSComplete from './SRSComplete'
 
-export default function SRSSession({ onHome }) {
+export default function SRSSession({ onHome, onStartDeck }) {
   const [queue, setQueue] = useState([])
   const [currentIdx, setCurrentIdx] = useState(0)
   const [complete, setComplete] = useState(false)
@@ -100,6 +100,7 @@ export default function SRSSession({ onHome }) {
       <SRSComplete
         stats={{ correct, total: scored, maxCombo, duration }}
         onHome={onHome}
+        onStartDeck={onStartDeck}
       />
     )
   }

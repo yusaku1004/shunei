@@ -1,11 +1,41 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { db } from '../db/index'
-import { isDue, STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
+import { db, dateKey } from '../db/index'
+import { isDue, getUpcomingDue, formatDueDays, STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
 import { useStreak } from '../hooks/useStreak'
 import { getStudyTag, setStudyTag } from '../studyPrefs'
 
 const BOX_COLORS = ['#e2e8f0', '#c4b5fd', '#818cf8', '#6c63ff', '#f59e0b', '#22c55e']
+
+// 今日の学習目標リング（採点数ベース）
+function DailyGoalRing({ done, goal }) {
+  const pct = goal > 0 ? Math.min(done / goal, 1) : 0
+  const achieved = done >= goal
+  const R = 24
+  const C = 2 * Math.PI * R
+  return (
+    <div className={`goal-card ${achieved ? 'achieved' : ''}`}>
+      <svg className="goal-ring" viewBox="0 0 60 60" aria-hidden="true">
+        <circle className="goal-ring-track" cx="30" cy="30" r={R} />
+        <circle
+          className="goal-ring-fill"
+          cx="30" cy="30" r={R}
+          strokeDasharray={C}
+          strokeDashoffset={C * (1 - pct)}
+        />
+      </svg>
+      <div className="goal-info">
+        <span className="goal-title">今日の目標</span>
+        <span className="goal-count">
+          {done} <span className="goal-denom">/ {goal}文</span>
+        </span>
+      </div>
+      <span className="goal-msg">
+        {achieved ? '🎉 達成！' : `あと${goal - done}文`}
+      </span>
+    </div>
+  )
+}
 
 function BoxDistBar({ sentences }) {
   if (!sentences || sentences.length === 0) return null
@@ -58,10 +88,16 @@ export default function HomeScreen({ onStartReadAloud, onStartDeck, onStartSRS, 
   const [tag, setTag] = useState(getStudyTag)
 
   const deckSize    = Number(localStorage.getItem('shunei_decksize')) || 7
+  const dailyGoal   = Number(localStorage.getItem('shunei_dailygoal')) || 20
   const total       = sentences?.length ?? 0
   // 文法で絞った「いま学習対象」の文
   const inScope     = sentences?.filter(s => !tag || s.tag === tag) ?? []
   const dueCount    = inScope.filter(isDue).length
+  const upcoming    = useMemo(() => getUpcomingDue(inScope), [sentences, tag])
+
+  // 今日の採点数（settings テーブルの daily_counts をライブ購読）
+  const dailyCountsRow = useLiveQuery(() => db.settings.get('daily_counts'), [])
+  const todayCount = dailyCountsRow?.value?.[dateKey()] ?? 0
   const tags        = useMemo(() => [...new Set((sentences ?? []).map(s => s.tag))].sort(), [sentences])
   const masteredCount = sentences?.filter(s => s.box === 5).length ?? 0
 
@@ -101,6 +137,8 @@ export default function HomeScreen({ onStartReadAloud, onStartDeck, onStartSRS, 
           </div>
         )}
       </header>
+
+      <DailyGoalRing done={todayCount} goal={dailyGoal} />
 
       <button className="stats-row" onClick={onOpenStats} aria-label="学習の記録を見る">
         <div className="stat-card">
@@ -185,7 +223,9 @@ export default function HomeScreen({ onStartReadAloud, onStartDeck, onStartSRS, 
             <p>
               {dueCount > 0
                 ? <><strong className="due-count">{dueCount}文</strong> 待っています</>
-                : '今日の復習はありません'}
+                : upcoming.length > 0
+                  ? <>次の復習: {upcoming.map(u => `${formatDueDays(u.days)} ${u.count}文`).join('・')}</>
+                  : '今日の復習はありません'}
             </p>
           </div>
           <div className="mode-arrow">›</div>

@@ -14,7 +14,7 @@ function getTTSRate() {
   return Number(localStorage.getItem('shunei_ttsrate')) || 0.9
 }
 
-export default function ReadAloudSession({ onHome }) {
+export default function ReadAloudSession({ onHome, onStartDeck }) {
   const [deck, setDeck] = useState([])
   const [idx, setIdx] = useState(0)
   const [repeat, setRepeat] = useState(0)
@@ -96,7 +96,8 @@ export default function ReadAloudSession({ onHome }) {
           <br />このまま「デッキ周回」で瞬間英作文に挑戦しましょう。
         </p>
         <div className="complete-actions">
-          <button className="btn-primary" onClick={restart}>↻ もう一周</button>
+          <button className="btn-primary" onClick={onStartDeck}>② デッキ周回へ進む →</button>
+          <button className="btn-ghost" onClick={restart}>↻ もう一周</button>
           <button className="btn-ghost" onClick={onHome}>ホームへ</button>
         </div>
       </div>

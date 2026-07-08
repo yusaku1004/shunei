@@ -33,7 +33,7 @@ export default function DeckComplete({ deck, stats = {}, onRestart, onHome }) {
       </div>
 
       <div className="complete-actions">
-        <button className="btn-primary" onClick={onRestart}>もう一周</button>
+        <button className="btn-primary" onClick={onRestart}>次のデッキへ →</button>
         <button className="btn-ghost" onClick={onHome}>ホームへ</button>
       </div>
     </div>

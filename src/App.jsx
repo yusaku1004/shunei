@@ -16,9 +16,23 @@ export default function App() {
     seedIfEmpty()
   }, [])
 
-  if (screen === 'readaloud') return <ReadAloudSession onHome={() => setScreen('home')} />
+  if (screen === 'readaloud') {
+    return (
+      <ReadAloudSession
+        onHome={() => setScreen('home')}
+        onStartDeck={() => setScreen('deck')}
+      />
+    )
+  }
   if (screen === 'deck') return <DeckSession onHome={() => setScreen('home')} />
-  if (screen === 'srs') return <SRSSession onHome={() => setScreen('home')} />
+  if (screen === 'srs') {
+    return (
+      <SRSSession
+        onHome={() => setScreen('home')}
+        onStartDeck={() => setScreen('deck')}
+      />
+    )
+  }
   if (screen === 'settings') {
     return (
       <SettingsScreen
@@ -33,6 +47,7 @@ export default function App() {
       <StatsScreen
         onBack={() => setScreen('home')}
         onOpenMastered={() => setScreen('mastered')}
+        onPractice={() => setScreen('deck')}
       />
     )
   }
