@@ -1386,3 +1386,77 @@ body::before {
 @media (hover: hover) {
   .tag-practice-btn:hover { background: var(--accent-pale); border-color: var(--accent); }
 }
+
+/* ============================
+   Filter card (文法 + レベル)
+   ============================ */
+.filter-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+/* 単体カードだった .grammar-filter を filter-card 内では行として扱う */
+.filter-card .grammar-filter {
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+.filter-card .grammar-filter + .grammar-filter {
+  border-top: 1px solid var(--border);
+}
+
+/* 統計レベルタブの練習ボタン用（align-self を効かせる） */
+.level-prog-card { display: flex; flex-direction: column; }
+
+/* ============================
+   Hint (FlashCard)
+   ============================ */
+.btn-hint {
+  margin-top: 14px;
+  padding: 8px 18px;
+  border: 1.5px dashed var(--border);
+  border-radius: 999px;
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.btn-hint:active { color: var(--text); border-color: var(--accent); }
+@media (hover: hover) {
+  .btn-hint:hover { color: var(--accent-dark); border-color: var(--accent); }
+}
+.hint-text {
+  margin-top: 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  animation: fadeIn 0.25s ease;
+}
+
+/* ============================
+   Promotion summary (complete screens)
+   ============================ */
+.promo-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0 6px;
+}
+.promo-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--accent-pale);
+  color: var(--accent-dark);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+.promo-badge.mastered {
+  background: var(--good-pale);
+  color: var(--good);
+}

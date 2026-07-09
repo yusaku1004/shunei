@@ -4,7 +4,7 @@ import { db, getDailyCounts, dateKey } from '../db/index'
 import { useStreak } from '../hooks/useStreak'
 import { STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
 import { progressByKey } from '../engines/progress'
-import { ALL_LEVELS, setStudyTag } from '../studyPrefs'
+import { ALL_LEVELS, setStudyTag, setStudyLevel } from '../studyPrefs'
 
 const BOX_COLORS = ['#e2e8f0', '#c4b5fd', '#818cf8', '#6c63ff', '#f59e0b', '#22c55e']
 const HEAT_WEEKS = 14
@@ -31,9 +31,17 @@ function ProgressBar({ p }) {
 }
 
 export default function StatsScreen({ onBack, onOpenMastered, onPractice }) {
-  // 文法タグを学習対象に設定してデッキ周回を開始
+  // 文法タグを学習対象に設定してデッキ周回を開始（レベル絞り込みは解除）
   function practiceTag(tag) {
     setStudyTag(tag)
+    setStudyLevel(null)
+    onPractice()
+  }
+
+  // レベルを学習対象に設定してデッキ周回を開始（文法絞り込みは解除）
+  function practiceLevel(level) {
+    setStudyLevel(level)
+    setStudyTag(null)
     onPractice()
   }
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
@@ -159,6 +167,11 @@ export default function StatsScreen({ onBack, onOpenMastered, onPractice }) {
                 <span>習得 {p.mastered}・学習中 {p.studying}・未学習 {p.unseen}</span>
                 {p.due > 0 && <span className="level-prog-due">復習待ち {p.due}</span>}
               </div>
+              {p.total > 0 && (
+                <button className="tag-practice-btn" onClick={() => practiceLevel(lv)}>
+                  このレベルで練習 →
+                </button>
+              )}
             </div>
           )
         })}

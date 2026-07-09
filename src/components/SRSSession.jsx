@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { db, bumpDailyCount } from '../db/index'
 import { gradeCard, getSRSDue } from '../engines/leitner'
-import { getStudyTag } from '../studyPrefs'
+import { filterByStudyPrefs } from '../studyPrefs'
 import { useStreak } from '../hooks/useStreak'
 import FlashCard from './FlashCard'
 import SRSComplete from './SRSComplete'
@@ -16,6 +16,8 @@ export default function SRSSession({ onHome, onStartDeck }) {
   const [correct, setCorrect] = useState(0)
   const [scored, setScored] = useState(0)
   const [history, setHistory] = useState([])
+  // 昇格サマリー用: セッション中の box の移動 { [id]: { from, to } }
+  const [boxMoves, setBoxMoves] = useState({})
   const sessionStart = useRef(Date.now())
   const { recordStudy } = useStreak()
 
@@ -27,9 +29,7 @@ export default function SRSSession({ onHome, onStartDeck }) {
   async function initQueue() {
     setLoading(true)
     const all = await db.sentences.toArray()
-    const tag = getStudyTag()
-    let due = getSRSDue(all)
-    if (tag) due = due.filter((s) => s.tag === tag)
+    const due = getSRSDue(filterByStudyPrefs(all))
     const shuffled = [...due].sort(() => Math.random() - 0.5)
     setQueue(shuffled)
     setCurrentIdx(0)
@@ -38,6 +38,7 @@ export default function SRSSession({ onHome, onStartDeck }) {
     setCorrect(0)
     setScored(0)
     setHistory([])
+    setBoxMoves({})
     sessionStart.current = Date.now()
     setComplete(shuffled.length === 0)
     setLoading(false)
@@ -47,12 +48,16 @@ export default function SRSSession({ onHome, onStartDeck }) {
     const card = queue[currentIdx]
     if (!card) return
 
-    setHistory((h) => [...h, { card, currentIdx, combo, maxCombo, correct, scored }])
+    setHistory((h) => [...h, { card, currentIdx, combo, maxCombo, correct, scored, boxMoves }])
 
     const update = gradeCard(card, score)
     await db.sentences.update(card.id, update)
     bumpDailyCount(1)
     setScored((n) => n + 1)
+    setBoxMoves((m) => ({
+      ...m,
+      [card.id]: { from: m[card.id]?.from ?? card.box, to: update.box },
+    }))
 
     if (score === 'good') {
       const newCombo = combo + 1
@@ -88,6 +93,7 @@ export default function SRSSession({ onHome, onStartDeck }) {
     setMaxCombo(snap.maxCombo)
     setCorrect(snap.correct)
     setScored(snap.scored)
+    setBoxMoves(snap.boxMoves)
     setComplete(false)
     setHistory((h) => h.slice(0, -1))
   }
@@ -99,6 +105,7 @@ export default function SRSSession({ onHome, onStartDeck }) {
     return (
       <SRSComplete
         stats={{ correct, total: scored, maxCombo, duration }}
+        boxMoves={boxMoves}
         onHome={onHome}
         onStartDeck={onStartDeck}
       />

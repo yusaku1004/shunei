@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { db } from '../db/index'
 import { buildDeck } from '../engines/deckCycle'
-import { getStudyTag } from '../studyPrefs'
+import { filterByStudyPrefs } from '../studyPrefs'
 import { useStreak } from '../hooks/useStreak'
 import { useTTS } from '../hooks/useTTS'
 
@@ -34,8 +34,7 @@ export default function ReadAloudSession({ onHome, onStartDeck }) {
   async function init() {
     setLoading(true)
     const all = await db.sentences.toArray()
-    const tag = getStudyTag()
-    const pool = tag ? all.filter((s) => s.tag === tag) : all
+    const pool = filterByStudyPrefs(all)
     const size = Number(localStorage.getItem('shunei_decksize')) || 7
     setDeck(buildDeck(pool, size))
     setIdx(0)

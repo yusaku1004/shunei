@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { db, bumpDailyCount } from '../db/index'
 import { gradeCard } from '../engines/leitner'
 import { buildDeck, isDeckComplete } from '../engines/deckCycle'
-import { getStudyTag } from '../studyPrefs'
+import { filterByStudyPrefs } from '../studyPrefs'
 import { useStreak } from '../hooks/useStreak'
 import FlashCard from './FlashCard'
 import DeckProgress from './DeckProgress'
@@ -19,6 +19,8 @@ export default function DeckSession({ onHome }) {
   const [correct, setCorrect] = useState(0)
   const [scored, setScored] = useState(0)
   const [history, setHistory] = useState([])
+  // 昇格サマリー用: セッション中の box の移動 { [id]: { from, to } }
+  const [boxMoves, setBoxMoves] = useState({})
   const sessionStart = useRef(Date.now())
   const { recordStudy } = useStreak()
 
@@ -30,12 +32,12 @@ export default function DeckSession({ onHome }) {
   async function initDeck() {
     setLoading(true)
     const all = await db.sentences.toArray()
-    const tag = getStudyTag()
-    const pool = tag ? all.filter((s) => s.tag === tag) : all
+    const pool = filterByStudyPrefs(all)
     const size = Number(localStorage.getItem('shunei_decksize')) || 7
     const d = buildDeck(pool, size)
     setDeck(d)
     setResults({})
+    setBoxMoves({})
     setCurrentIdx(0)
     setComplete(false)
     setCombo(0)
@@ -52,11 +54,15 @@ export default function DeckSession({ onHome }) {
     if (!card) return
 
     // Undo 用に直前の状態をスナップショット
-    setHistory((h) => [...h, { card, currentIdx, results, combo, maxCombo, correct, scored }])
+    setHistory((h) => [...h, { card, currentIdx, results, combo, maxCombo, correct, scored, boxMoves }])
 
     const update = gradeCard(card, score)
     await db.sentences.update(card.id, update)
     bumpDailyCount(1)
+    setBoxMoves((m) => ({
+      ...m,
+      [card.id]: { from: m[card.id]?.from ?? card.box, to: update.box },
+    }))
 
     const newResults = { ...results, [card.id]: score }
     setResults(newResults)
@@ -105,6 +111,7 @@ export default function DeckSession({ onHome }) {
     setMaxCombo(snap.maxCombo)
     setCorrect(snap.correct)
     setScored(snap.scored)
+    setBoxMoves(snap.boxMoves)
     setComplete(false)
     setHistory((h) => h.slice(0, -1))
   }
@@ -130,6 +137,7 @@ export default function DeckSession({ onHome }) {
       <DeckComplete
         deck={deck}
         stats={{ correct, total: scored, maxCombo, duration }}
+        boxMoves={boxMoves}
         onRestart={initDeck}
         onHome={onHome}
       />

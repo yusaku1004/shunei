@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { db } from '../db/index'
+import { db, dateKey, exportBackup, validateBackup, importBackup } from '../db/index'
 import { SAMPLE_SENTENCES } from '../data/sampleSentences'
 import { useTTS } from '../hooks/useTTS'
-import { getThemePref, setThemePref } from '../theme'
+import { getThemePref, setThemePref, applyTheme } from '../theme'
 
 const TAGS = [...new Set(SAMPLE_SENTENCES.map((s) => s.tag))]
 const LEVELS = [1, 2, 3, 4]
@@ -32,6 +32,10 @@ export default function SettingsScreen({ onBack, onManage }) {
   const [dailyGoal, setDailyGoal] = useState(
     () => Number(localStorage.getItem('shunei_dailygoal')) || 20
   )
+  // インポート: 選択したファイルの内容と概要（確認画面用）
+  const [importPending, setImportPending] = useState(null)
+  const [backupStatus, setBackupStatus] = useState('')
+  const fileInputRef = useRef(null)
   const { speak } = useTTS()
 
   function changeDeckSize(n) {
@@ -134,6 +138,54 @@ export default function SettingsScreen({ onBack, onManage }) {
       setGenStatus(`エラー: ${e.message}`)
     } finally {
       setGenerating(false)
+    }
+  }
+
+  async function downloadBackup() {
+    const data = await exportBackup()
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `shunei-backup-${dateKey()}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+    setBackupStatus(`${data.sentences.length}文をエクスポートしました`)
+    setTimeout(() => setBackupStatus(''), 3000)
+  }
+
+  async function pickBackupFile(e) {
+    const file = e.target.files?.[0]
+    e.target.value = '' // 同じファイルを選び直せるようにリセット
+    if (!file) return
+    try {
+      const data = JSON.parse(await file.text())
+      const summary = validateBackup(data)
+      setImportPending({ data, ...summary })
+      setBackupStatus('')
+    } catch (err) {
+      setImportPending(null)
+      setBackupStatus(`エラー: ${err.message}`)
+    }
+  }
+
+  async function runImport() {
+    try {
+      await importBackup(importPending.data)
+      // 復元した設定を画面とテーマに即時反映
+      applyTheme()
+      setTheme(getThemePref())
+      setDeckSize(Number(localStorage.getItem('shunei_decksize')) || 7)
+      setDailyGoal(Number(localStorage.getItem('shunei_dailygoal')) || 20)
+      setAutoSpeak(localStorage.getItem('shunei_autospeak') !== 'off')
+      setTtsRate(Number(localStorage.getItem('shunei_ttsrate')) || 0.9)
+      setRepeatStep(localStorage.getItem('shunei_repeat') !== 'off')
+      setBackupStatus(`${importPending.count}文を復元しました`)
+      setTimeout(() => setBackupStatus(''), 3000)
+    } catch (err) {
+      setBackupStatus(`エラー: ${err.message}`)
+    } finally {
+      setImportPending(null)
     }
   }
 
@@ -353,6 +405,46 @@ export default function SettingsScreen({ onBack, onManage }) {
         </button>
 
         {genStatus && <p className="gen-status">{genStatus}</p>}
+      </section>
+
+      {/* Backup */}
+      <section className="settings-section">
+        <h3>バックアップ</h3>
+        <p className="setting-desc" style={{ marginBottom: 12 }}>
+          文と学習の進捗をファイルに保存できます。機種変更やブラウザのデータ削除に備えて定期的にエクスポートしてください。
+        </p>
+        {!importPending ? (
+          <div className="danger-buttons">
+            <button className="btn-primary" style={{ flex: 1 }} onClick={downloadBackup}>
+              ⬇ エクスポート
+            </button>
+            <button className="btn-ghost" style={{ flex: 1 }} onClick={() => fileInputRef.current?.click()}>
+              ⬆ インポート
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/json,.json"
+              style={{ display: 'none' }}
+              onChange={pickBackupFile}
+            />
+          </div>
+        ) : (
+          <div className="confirm-box">
+            <p>
+              {importPending.count}文のバックアップ
+              {importPending.exportedAt &&
+                `（${new Date(importPending.exportedAt).toLocaleDateString('ja-JP')}作成）`}
+              を復元しますか？
+              <br />現在の文と進捗はすべて上書きされます。
+            </p>
+            <div className="danger-buttons">
+              <button className="btn-danger" onClick={runImport}>復元する</button>
+              <button className="btn-ghost" onClick={() => setImportPending(null)}>キャンセル</button>
+            </div>
+          </div>
+        )}
+        {backupStatus && <p className="gen-status">{backupStatus}</p>}
       </section>
 
       {/* Danger zone */}

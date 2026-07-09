@@ -1,9 +1,11 @@
+import PromotionSummary from './PromotionSummary'
+
 function fmtTime(sec) {
   if (sec < 60) return `${sec}秒`
   return `${Math.floor(sec / 60)}分${sec % 60}秒`
 }
 
-export default function DeckComplete({ deck, stats = {}, onRestart, onHome }) {
+export default function DeckComplete({ deck, stats = {}, boxMoves, onRestart, onHome }) {
   const { correct = 0, total = 0, maxCombo = 0, duration = 0 } = stats
   const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0
 
@@ -31,6 +33,8 @@ export default function DeckComplete({ deck, stats = {}, onRestart, onHome }) {
           <span className="stat-tile-label">採点回数</span>
         </div>
       </div>
+
+      <PromotionSummary boxMoves={boxMoves} />
 
       <div className="complete-actions">
         <button className="btn-primary" onClick={onRestart}>次のデッキへ →</button>

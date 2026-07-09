@@ -3,7 +3,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { db, dateKey } from '../db/index'
 import { isDue, getUpcomingDue, formatDueDays, STAGE_NAMES, STAGE_INTERVALS } from '../engines/leitner'
 import { useStreak } from '../hooks/useStreak'
-import { getStudyTag, setStudyTag } from '../studyPrefs'
+import { getStudyTag, setStudyTag, getStudyLevel, setStudyLevel, ALL_LEVELS } from '../studyPrefs'
 
 const BOX_COLORS = ['#e2e8f0', '#c4b5fd', '#818cf8', '#6c63ff', '#f59e0b', '#22c55e']
 
@@ -86,14 +86,15 @@ export default function HomeScreen({ onStartReadAloud, onStartDeck, onStartSRS, 
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
   const { streak } = useStreak()
   const [tag, setTag] = useState(getStudyTag)
+  const [level, setLevel] = useState(getStudyLevel)
 
   const deckSize    = Number(localStorage.getItem('shunei_decksize')) || 7
   const dailyGoal   = Number(localStorage.getItem('shunei_dailygoal')) || 20
   const total       = sentences?.length ?? 0
-  // 文法で絞った「いま学習対象」の文
-  const inScope     = sentences?.filter(s => !tag || s.tag === tag) ?? []
+  // 文法・レベルで絞った「いま学習対象」の文
+  const inScope     = sentences?.filter(s => (!tag || s.tag === tag) && (!level || s.level === level)) ?? []
   const dueCount    = inScope.filter(isDue).length
-  const upcoming    = useMemo(() => getUpcomingDue(inScope), [sentences, tag])
+  const upcoming    = useMemo(() => getUpcomingDue(inScope), [sentences, tag, level])
 
   // 今日の採点数（settings テーブルの daily_counts をライブ購読）
   const dailyCountsRow = useLiveQuery(() => db.settings.get('daily_counts'), [])
@@ -105,6 +106,12 @@ export default function HomeScreen({ onStartReadAloud, onStartDeck, onStartSRS, 
     const next = t && tag === t ? null : t // 同じタグを再タップで解除
     setTag(next)
     setStudyTag(next)
+  }
+
+  function selectLevel(lv) {
+    const next = lv && level === lv ? null : lv // 同じレベルを再タップで解除
+    setLevel(next)
+    setStudyLevel(next)
   }
 
   // 選択中のタグの文が無くなった場合（例: 全削除）は「すべて」に戻す
@@ -157,21 +164,40 @@ export default function HomeScreen({ onStartReadAloud, onStartDeck, onStartSRS, 
 
       <BoxDistBar sentences={sentences} />
 
-      <div className="grammar-filter">
-        <span className="level-filter-label">文法</span>
-        <div className="grammar-chips">
-          <button className={`gchip ${!tag ? 'active' : ''}`} onClick={() => selectTag(null)}>
-            すべて
-          </button>
-          {tags.map((t) => (
-            <button
-              key={t}
-              className={`gchip ${tag === t ? 'active' : ''}`}
-              onClick={() => selectTag(t)}
-            >
-              {t}
+      <div className="filter-card">
+        <div className="grammar-filter">
+          <span className="level-filter-label">文法</span>
+          <div className="grammar-chips">
+            <button className={`gchip ${!tag ? 'active' : ''}`} onClick={() => selectTag(null)}>
+              すべて
             </button>
-          ))}
+            {tags.map((t) => (
+              <button
+                key={t}
+                className={`gchip ${tag === t ? 'active' : ''}`}
+                onClick={() => selectTag(t)}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="grammar-filter">
+          <span className="level-filter-label">レベル</span>
+          <div className="grammar-chips">
+            <button className={`gchip ${!level ? 'active' : ''}`} onClick={() => selectLevel(null)}>
+              すべて
+            </button>
+            {ALL_LEVELS.map((lv) => (
+              <button
+                key={lv}
+                className={`gchip ${level === lv ? 'active' : ''}`}
+                onClick={() => selectLevel(lv)}
+              >
+                Lv{lv}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

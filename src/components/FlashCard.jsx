@@ -31,6 +31,7 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
   const [dragX, setDragX] = useState(0)
   const [exiting, setExiting] = useState(null)
   const [repeatCount, setRepeatCount] = useState(0)
+  const [hintUsed, setHintUsed] = useState(false)
   const startXRef = useRef(null)
   const firedRef = useRef(false)
   const { speak, stop } = useTTS()
@@ -41,6 +42,7 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
     setDragX(0)
     setExiting(null)
     setRepeatCount(0)
+    setHintUsed(false)
     firedRef.current = false
     reset()
   }, [sentence?.id])
@@ -76,6 +78,11 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
     setRepeatCount((c) => Math.min(c + 1, 3))
   }
 
+  function showHint() {
+    if (revealed || exiting) return
+    setHintUsed(true)
+  }
+
   // Keyboard shortcuts (desktop)
   useEffect(() => {
     function onKey(e) {
@@ -87,6 +94,9 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
         if (e.code === 'Space' || e.code === 'Enter') {
           e.preventDefault()
           reveal()
+        } else if (e.key === 'h' || e.key === 'H') {
+          e.preventDefault()
+          showHint()
         }
         return
       }
@@ -152,7 +162,9 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
   const swipeProgress = Math.min(Math.abs(dragX) / SWIPE_THRESHOLD, 1)
   const showGoodHint = isLive && dragX > 15
   const showAgainHint = isLive && dragX < -15
-  const isSpeedBonus = revealed && elapsed < SPEED_THRESHOLD
+  const isSpeedBonus = revealed && elapsed < SPEED_THRESHOLD && !hintUsed
+  // ヒント: 英文の最初の2語だけ見せる
+  const hintText = sentence.en.split(/\s+/).slice(0, 2).join(' ')
 
   const bodyStyle = isLive ? {
     transform: `translateX(${dragX}px) rotate(${dragX * 0.03}deg)`,
@@ -209,10 +221,22 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
         {/* Japanese */}
         <div className="card-jp-section">
           <p className="jp-text">{sentence.jp}</p>
+          {!revealed && hintUsed && (
+            <p className="hint-text">💡 {hintText} …</p>
+          )}
           {!revealed && (
             <p className="think-hint">
               {IS_DESKTOP ? 'クリック / スペースで答えを見る' : 'タップして答えを見る'}
             </p>
+          )}
+          {!revealed && !hintUsed && (
+            <button
+              className="btn-hint"
+              onClick={(e) => { e.stopPropagation(); showHint() }}
+              title={IS_DESKTOP ? '出だしの2語を見る (H)' : undefined}
+            >
+              💡 ヒント
+            </button>
           )}
         </div>
 
