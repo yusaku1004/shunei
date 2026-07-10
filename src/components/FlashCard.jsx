@@ -266,11 +266,21 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
         </div>
 
         {/* Timer bar */}
-        {!revealed && (
-          <div className="timer-bar-wrap">
-            <div className="timer-bar" style={{ width: `${Math.min((elapsed / SPEED_THRESHOLD) * 100, 100)}%` }} />
-          </div>
-        )}
+        {!revealed && (() => {
+          const pct = Math.min((elapsed / SPEED_THRESHOLD) * 100, 100)
+          return (
+            <div className="timer-bar-wrap">
+              <div
+                className="timer-bar"
+                style={{
+                  width: `${pct}%`,
+                  // グラデーションを常にトラック全幅に敷き、塗られた分だけ見せる
+                  backgroundSize: `${pct > 0 ? 10000 / pct : 100}% 100%`,
+                }}
+              />
+            </div>
+          )
+        })()}
 
         {/* English (revealed) */}
         {revealed && (
