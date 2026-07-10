@@ -11,6 +11,9 @@ export function getNextDue(box) {
   const days = BOX_INTERVALS[Math.min(box, 5)]
   const d = new Date()
   d.setDate(d.getDate() + days)
+  // 期限は日付の頭に正規化する。時刻を残すと夜に学習した文が
+  // 翌日の同時刻まで「復習待ち」に現れず、朝の復習に出てこない
+  d.setHours(0, 0, 0, 0)
   return d.toISOString()
 }
 

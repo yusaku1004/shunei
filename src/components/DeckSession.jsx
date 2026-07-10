@@ -58,6 +58,8 @@ export default function DeckSession({ onHome }) {
 
     const update = gradeCard(card, score)
     await db.sentences.update(card.id, update)
+    // メモリ上のデッキにも反映（×の後の再挑戦を古いboxで採点しないため）
+    setDeck((d) => d.map((s) => (s.id === card.id ? { ...s, ...update } : s)))
     bumpDailyCount(1)
     setBoxMoves((m) => ({
       ...m,
@@ -104,6 +106,8 @@ export default function DeckSession({ onHome }) {
       ease: card.ease,
       interval: card.interval,
     })
+    // メモリ上のデッキも採点前のカードに戻す
+    setDeck((d) => d.map((s) => (s.id === card.id ? card : s)))
     bumpDailyCount(-1)
     setResults(snap.results)
     setCurrentIdx(snap.currentIdx)

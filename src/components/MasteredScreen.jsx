@@ -3,6 +3,10 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/index'
 import { useTTS } from '../hooks/useTTS'
 
+function getTTSRate() {
+  return Number(localStorage.getItem('shunei_ttsrate')) || 0.9
+}
+
 // box === 5（「習得済み」ステージ）に到達した英文の一覧。
 export default function MasteredScreen({ onBack }) {
   const sentences = useLiveQuery(() => db.sentences.where('box').equals(5).toArray(), [])
@@ -70,7 +74,7 @@ export default function MasteredScreen({ onBack }) {
                     </div>
                   </div>
                   <div className="manager-actions">
-                    <button className="icon-btn" onClick={() => speak(s.en)} aria-label="英語を読み上げ">🔊</button>
+                    <button className="icon-btn" onClick={() => speak(s.en, 'en-US', getTTSRate())} aria-label="英語を読み上げ">🔊</button>
                   </div>
                 </div>
               ))}
