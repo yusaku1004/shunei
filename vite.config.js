@@ -23,8 +23,9 @@ export default defineConfig({
         lang: 'ja',
         start_url: '/',
         scope: '/',
-        theme_color: '#1a1a2e',
-        background_color: '#1a1a2e',
+        // アプリのダークテーマ実色（src/theme.js の THEME_COLORS と揃える）
+        theme_color: '#14131f',
+        background_color: '#14131f',
         display: 'standalone',
         orientation: 'portrait',
         categories: ['education'],

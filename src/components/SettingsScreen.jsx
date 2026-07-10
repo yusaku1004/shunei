@@ -8,6 +8,19 @@ import { getThemePref, setThemePref, applyTheme } from '../theme'
 const TAGS = [...new Set(SAMPLE_SENTENCES.map((s) => s.tag))]
 const LEVELS = [1, 2, 3, 4]
 
+// モデルの応答からJSON配列を取り出す。
+// コードフェンス（```json）や前置きの文が付いていても許容する。
+function parseGeneratedPairs(text) {
+  const match = text.match(/\[[\s\S]*\]/)
+  if (!match) throw new Error('生成結果を解析できませんでした')
+  const pairs = JSON.parse(match[0])
+  if (!Array.isArray(pairs)) throw new Error('生成結果を解析できませんでした')
+  return pairs
+    .filter((p) => p && typeof p.jp === 'string' && typeof p.en === 'string')
+    .map((p) => ({ jp: p.jp.trim(), en: p.en.trim() }))
+    .filter((p) => p.jp && p.en)
+}
+
 export default function SettingsScreen({ onBack, onManage }) {
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('anthropic_key') || '')
   const [generating, setGenerating] = useState(false)
@@ -136,12 +149,16 @@ export default function SettingsScreen({ onBack, onManage }) {
 
       if (!res.ok) throw new Error(`API error: ${res.status}`)
       const data = await res.json()
-      const text = data.content[0].text
-      const pairs = JSON.parse(text)
+      const pairs = parseGeneratedPairs(data.content[0].text)
+
+      // 既存の日本語文と重複するものは登録しない
+      const existingJP = new Set((await db.sentences.toArray()).map((s) => s.jp))
+      const fresh = pairs.filter((p) => !existingJP.has(p.jp))
+      const skipped = pairs.length - fresh.length
 
       const now = new Date().toISOString()
       await db.sentences.bulkAdd(
-        pairs.map((p) => ({
+        fresh.map((p) => ({
           jp: p.jp,
           en: p.en,
           tag: selectedTag,
@@ -153,7 +170,11 @@ export default function SettingsScreen({ onBack, onManage }) {
           reps: 0,
         }))
       )
-      setGenStatus(`${pairs.length}文を追加しました！`)
+      setGenStatus(
+        fresh.length === 0
+          ? 'すべて既存の文と重複していたため追加しませんでした'
+          : `${fresh.length}文を追加しました！${skipped > 0 ? `（重複${skipped}文を除外）` : ''}`
+      )
     } catch (e) {
       setGenStatus(`エラー: ${e.message}`)
     } finally {
