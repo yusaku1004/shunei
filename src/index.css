@@ -1460,3 +1460,59 @@ body::before {
   background: var(--good-pale);
   color: var(--good);
 }
+
+/* ============================
+   Swipe up = 惜しい (△)
+   ============================ */
+.swipe-overlay.hard {
+  background: linear-gradient(to top, #fef9c3cc, #fef9c388);
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 24px;
+}
+.swipe-overlay.hard .swipe-label { color: var(--hard); }
+
+/* ============================
+   Listen (聞き流し) mode
+   ============================ */
+.mode-card.listen { border-color: #bde5e1; }
+.mode-card.listen .mode-icon { background: #d9f5f2; color: #0d9488; }
+[data-theme="dark"] .mode-card.listen { border-color: #1f4b47; }
+[data-theme="dark"] .mode-card.listen .mode-icon { background: #143733; color: #2dd4bf; }
+
+.listen-think {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+.listen-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+.listen-btn {
+  padding: 12px 16px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s, background 0.15s;
+}
+.listen-btn:active { transform: scale(0.94); }
+.listen-btn.main {
+  padding: 12px 28px;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(108,99,255,.35);
+}
+
+/* 設定: 英語音声セレクト */
+.voice-select { max-width: 180px; }

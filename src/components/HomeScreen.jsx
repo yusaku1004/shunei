@@ -82,7 +82,7 @@ function BoxDistBar({ sentences }) {
   )
 }
 
-export default function HomeScreen({ onStartReadAloud, onStartDeck, onStartSRS, onOpenSettings, onOpenStats }) {
+export default function HomeScreen({ onStartReadAloud, onStartDeck, onStartSRS, onStartListen, onOpenSettings, onOpenStats }) {
   const sentences = useLiveQuery(() => db.sentences.toArray(), [])
   const { streak } = useStreak()
   const [tag, setTag] = useState(getStudyTag)
@@ -253,6 +253,20 @@ export default function HomeScreen({ onStartReadAloud, onStartDeck, onStartSRS, 
                   ? <>次の復習: {upcoming.map(u => `${formatDueDays(u.days)} ${u.count}文`).join('・')}</>
                   : '今日の復習はありません'}
             </p>
+          </div>
+          <div className="mode-arrow">›</div>
+        </button>
+
+        <button className="mode-card listen" onClick={onStartListen}>
+          <div className="mode-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+            </svg>
+          </div>
+          <div className="mode-info">
+            <h3>聞き流し</h3>
+            <p>日本語→英語を自動で読み上げ<br />移動中や家事中にハンズフリーで</p>
           </div>
           <div className="mode-arrow">›</div>
         </button>

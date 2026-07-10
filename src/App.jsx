@@ -4,6 +4,7 @@ import HomeScreen from './components/HomeScreen'
 import ReadAloudSession from './components/ReadAloudSession'
 import DeckSession from './components/DeckSession'
 import SRSSession from './components/SRSSession'
+import ListenSession from './components/ListenSession'
 import SettingsScreen from './components/SettingsScreen'
 import SentenceManager from './components/SentenceManager'
 import StatsScreen from './components/StatsScreen'
@@ -25,6 +26,7 @@ export default function App() {
     )
   }
   if (screen === 'deck') return <DeckSession onHome={() => setScreen('home')} />
+  if (screen === 'listen') return <ListenSession onHome={() => setScreen('home')} />
   if (screen === 'srs') {
     return (
       <SRSSession
@@ -58,6 +60,7 @@ export default function App() {
       onStartReadAloud={() => setScreen('readaloud')}
       onStartDeck={() => setScreen('deck')}
       onStartSRS={() => setScreen('srs')}
+      onStartListen={() => setScreen('listen')}
       onOpenSettings={() => setScreen('settings')}
       onOpenStats={() => setScreen('stats')}
     />

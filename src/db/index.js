@@ -161,6 +161,7 @@ const BACKUP_PREF_KEYS = [
   'shunei_ttsrate',
   'shunei_repeat',
   'shunei_theme',
+  'shunei_voice',
 ]
 
 export async function exportBackup() {

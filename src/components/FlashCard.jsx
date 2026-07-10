@@ -29,10 +29,12 @@ function vibrate(ms) {
 export default function FlashCard({ sentence, onScore, combo = 0 }) {
   const [revealed, setRevealed] = useState(false)
   const [dragX, setDragX] = useState(0)
+  const [dragY, setDragY] = useState(0)
   const [exiting, setExiting] = useState(null)
   const [repeatCount, setRepeatCount] = useState(0)
   const [hintUsed, setHintUsed] = useState(false)
   const startXRef = useRef(null)
+  const startYRef = useRef(null)
   const firedRef = useRef(false)
   const { speak, stop } = useTTS()
   const { elapsed, reset } = useTimer(!revealed)
@@ -40,6 +42,7 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
   useEffect(() => {
     setRevealed(false)
     setDragX(0)
+    setDragY(0)
     setExiting(null)
     setRepeatCount(0)
     setHintUsed(false)
@@ -57,6 +60,7 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
     if (!revealed || exiting) return
     stop()
     setDragX(0)
+    setDragY(0)
     setRevealed(false)
   }
 
@@ -66,6 +70,7 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
     vibrate(score === 'good' ? 18 : 30)
     setExiting(score)
     setDragX(0)
+    setDragY(0)
     setTimeout(() => onScore(score), 320)
   }
 
@@ -116,58 +121,73 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
 
   if (!sentence) return null
 
+  // スワイプ共通ロジック（横 = ○/×、上 = △）
+  function beginDrag(x, y) {
+    startXRef.current = x
+    startYRef.current = y
+  }
+  function moveDrag(x, y) {
+    setDragX(x - startXRef.current)
+    setDragY(y - startYRef.current)
+  }
+  function endDrag() {
+    const horizontal = Math.abs(dragX) >= Math.abs(dragY)
+    if (horizontal && Math.abs(dragX) >= SWIPE_THRESHOLD) {
+      fireScore(dragX > 0 ? 'good' : 'again')
+    } else if (!horizontal && dragY <= -SWIPE_THRESHOLD) {
+      fireScore('hard')
+    } else if (Math.abs(dragX) < TAP_MAX_MOVE && Math.abs(dragY) < TAP_MAX_MOVE) {
+      hide() // ほぼ動かずにタップ/クリック→リリース：答えを隠す
+    } else {
+      setDragX(0)
+      setDragY(0)
+    }
+    startXRef.current = null
+    startYRef.current = null
+  }
+
   // Touch swipe handlers
   function onTouchStart(e) {
     if (!revealed || e.target.closest('button')) return
-    startXRef.current = e.touches[0].clientX
+    beginDrag(e.touches[0].clientX, e.touches[0].clientY)
   }
   function onTouchMove(e) {
     if (!revealed || startXRef.current === null) return
-    setDragX(e.touches[0].clientX - startXRef.current)
+    moveDrag(e.touches[0].clientX, e.touches[0].clientY)
   }
   function onTouchEnd() {
     if (!revealed || startXRef.current === null) return
-    if (Math.abs(dragX) >= SWIPE_THRESHOLD) {
-      fireScore(dragX > 0 ? 'good' : 'again')
-    } else if (Math.abs(dragX) < TAP_MAX_MOVE) {
-      hide() // ほぼ動かずにタップ→リリース：答えを隠す
-    } else {
-      setDragX(0)
-    }
-    startXRef.current = null
+    endDrag()
   }
 
   // Mouse drag handlers (desktop)
   function onMouseDown(e) {
     if (!revealed || e.target.closest('button')) return
-    startXRef.current = e.clientX
+    beginDrag(e.clientX, e.clientY)
   }
   function onMouseMove(e) {
     if (!revealed || startXRef.current === null || !(e.buttons & 1)) return
-    setDragX(e.clientX - startXRef.current)
+    moveDrag(e.clientX, e.clientY)
   }
   function onMouseUp() {
     if (!revealed || startXRef.current === null) return
-    if (Math.abs(dragX) >= SWIPE_THRESHOLD) {
-      fireScore(dragX > 0 ? 'good' : 'again')
-    } else if (Math.abs(dragX) < TAP_MAX_MOVE) {
-      hide() // ほぼ動かずにクリック：答えを隠す
-    } else {
-      setDragX(0)
-    }
-    startXRef.current = null
+    endDrag()
   }
 
   const isLive = revealed && !exiting
+  const isHorizontal = Math.abs(dragX) >= Math.abs(dragY)
   const swipeProgress = Math.min(Math.abs(dragX) / SWIPE_THRESHOLD, 1)
-  const showGoodHint = isLive && dragX > 15
-  const showAgainHint = isLive && dragX < -15
+  const hardProgress = Math.min(Math.abs(dragY) / SWIPE_THRESHOLD, 1)
+  const showGoodHint = isLive && isHorizontal && dragX > 15
+  const showAgainHint = isLive && isHorizontal && dragX < -15
+  const showHardHint = isLive && !isHorizontal && dragY < -15
   const isSpeedBonus = revealed && elapsed < SPEED_THRESHOLD && !hintUsed
   // ヒント: 英文の最初の2語だけ見せる
   const hintText = sentence.en.split(/\s+/).slice(0, 2).join(' ')
 
+  const lift = Math.min(dragY, 0) * 0.6 // 上方向のみ追従（下スワイプは無効）
   const bodyStyle = isLive ? {
-    transform: `translateX(${dragX}px) rotate(${dragX * 0.03}deg)`,
+    transform: `translate(${dragX}px, ${lift}px) rotate(${dragX * 0.03}deg)`,
     transition: startXRef.current !== null ? 'none' : 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
   } : {}
 
@@ -215,6 +235,11 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
         {showAgainHint && (
           <div className="swipe-overlay again" style={{ opacity: swipeProgress * 0.9 }}>
             <span className="swipe-label">×</span>
+          </div>
+        )}
+        {showHardHint && (
+          <div className="swipe-overlay hard" style={{ opacity: hardProgress * 0.9 }}>
+            <span className="swipe-label">△</span>
           </div>
         )}
 
@@ -293,8 +318,8 @@ export default function FlashCard({ sentence, onScore, combo = 0 }) {
         <>
           <p className="swipe-tip">
             {IS_DESKTOP
-              ? '← NG / OK → ・ 1 2 3 キーでも採点 ・ タップ / Space で隠す'
-              : '← スワイプで NG / OK → ・ タップで隠す'}
+              ? '← NG / OK → ・ ↑ 惜しい ・ 1 2 3 キーでも採点 ・ タップ / Space で隠す'
+              : '← NG / OK → ・ ↑ 惜しい ・ タップで隠す'}
           </p>
           <div className="score-buttons">
             <button className="score-btn again" onClick={() => fireScore('again')}>

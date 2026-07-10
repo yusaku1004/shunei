@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db, dateKey, exportBackup, validateBackup, importBackup } from '../db/index'
 import { SAMPLE_SENTENCES } from '../data/sampleSentences'
@@ -36,7 +36,27 @@ export default function SettingsScreen({ onBack, onManage }) {
   const [importPending, setImportPending] = useState(null)
   const [backupStatus, setBackupStatus] = useState('')
   const fileInputRef = useRef(null)
+  // 英語のTTS音声選択
+  const [voices, setVoices] = useState([])
+  const [voiceURI, setVoiceURI] = useState(() => localStorage.getItem('shunei_voice') || '')
   const { speak } = useTTS()
+
+  // 端末の英語音声を列挙（ブラウザによっては非同期に読み込まれる）
+  useEffect(() => {
+    const synth = window.speechSynthesis
+    if (!synth) return
+    const load = () => setVoices(synth.getVoices().filter((v) => v.lang.startsWith('en')))
+    load()
+    synth.addEventListener?.('voiceschanged', load)
+    return () => synth.removeEventListener?.('voiceschanged', load)
+  }, [])
+
+  function changeVoice(uri) {
+    setVoiceURI(uri)
+    if (uri) localStorage.setItem('shunei_voice', uri)
+    else localStorage.removeItem('shunei_voice')
+    speak('This is a sample sentence.', 'en-US', ttsRate)
+  }
 
   function changeDeckSize(n) {
     setDeckSize(n)
@@ -180,6 +200,7 @@ export default function SettingsScreen({ onBack, onManage }) {
       setAutoSpeak(localStorage.getItem('shunei_autospeak') !== 'off')
       setTtsRate(Number(localStorage.getItem('shunei_ttsrate')) || 0.9)
       setRepeatStep(localStorage.getItem('shunei_repeat') !== 'off')
+      setVoiceURI(localStorage.getItem('shunei_voice') || '')
       setBackupStatus(`${importPending.count}文を復元しました`)
       setTimeout(() => setBackupStatus(''), 3000)
     } catch (err) {
@@ -356,6 +377,27 @@ export default function SettingsScreen({ onBack, onManage }) {
             ))}
           </div>
         </div>
+
+        {voices.length > 0 && (
+          <div className="setting-row">
+            <div className="setting-label">
+              <span className="setting-title">英語の音声</span>
+              <span className="setting-desc">選ぶと試聴できます</span>
+            </div>
+            <select
+              className="input-select voice-select"
+              value={voiceURI}
+              onChange={(e) => changeVoice(e.target.value)}
+            >
+              <option value="">自動（既定の音声）</option>
+              {voices.map((v) => (
+                <option key={v.voiceURI} value={v.voiceURI}>
+                  {v.name} ({v.lang})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </section>
 
       {/* Generate */}
